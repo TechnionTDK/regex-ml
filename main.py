@@ -68,7 +68,7 @@ def makeJSON(matches,text):
     return match_string
 
 
-def main():
+def main1():
     text = ""
     with open("tora.txt", encoding='utf-8') as f:
         text = f.read()
@@ -87,6 +87,5 @@ def main():
     print("JSON File created! contains: [{0}] matches.".format(len(matches)))
 
 
-if __name__ == "__main__":
-    main()
+
 
