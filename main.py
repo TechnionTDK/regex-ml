@@ -6,7 +6,7 @@ import re
 from sklearn.model_selection import train_test_split
 from snorkel.labeling import LabelModel
 from snorkel.labeling import MajorityLabelVoter
-
+from numpy import savetxt
 
 # from utils import load_torat_emet_dataset
 
@@ -104,32 +104,33 @@ MASACHTOT_BAVLI = ['דברכות','ברכות', 'פאה', 'דמאי', 'כלאי�
 def if_parenthesis(x):
     """check if data contain ()"""
     return REF if "(" in x.text and ")" in x.text else ABSTAIN
-#TODO change to regular expresion
+    #TODO change to regular expresion
 
 @labeling_function()
 def if_perek(x):
-    """now we see if contain פרק or varsion of it"""
+    """check if contains chapter or versions of it"""
     return REF if "פרק" in x.text or "בפרק" in x.text or "בפ'" in x.text or "בפ\"ב" in x.text\
                   or "בפ\"ק" in x.text or "בסוף פרק" in x.text or "פירקא" in x.text else ABSTAIN
 
 
 @labeling_function()
 def if_begin_or_end_of_perek(x):
-    """now we see if contain בבתרא או בקמא"""
+    """check if contains בבתרא או בקמא"""
     return REF if "בקמא" in x.text or "בבתרא" in x.text else ABSTAIN
 #TODO add also קמא בתרא mabye we need change the check , here it maby substring and catch בקמאות
 
 
 @labeling_function()
 def if_amod(x):
-    """now we see if contain (. or (:  יכול להיות שנצטרך לשנות את הסוגר לצד השני כתלות בטקסט"""
+    """check if contains amood"""
+    #TODO: check whether to change parenthesis direction.
     return REF if ")." in x.text or "):" in x.text else ABSTAIN
 
 
 
 @labeling_function()
 def if_mashechet(x):
-    """now we see if contain mashechet"""
+    """check if contains mashechet"""
     for mashechet in MASACHTOT_BAVLI:
         if mashechet in x.text:
             return REF
@@ -138,57 +139,9 @@ def if_mashechet(x):
 
 @labeling_function()
 def if_daf(x):
-    """now we see if contain daf"""
+    """check if contains page"""
     return REF if "דף" in x.text else ABSTAIN
 
-
-
-
-
-def run_lf_on_data():
-    df_train, df_test = load_torat_emet_data()
-    Y_test = df_test.tag.values
-    #TODO:add validation set and dev set
-    lfs = [if_parenthesis, if_perek, if_daf, if_mashechet, if_amod, if_begin_or_end_of_perek]
-
-    applier = PandasLFApplier(lfs=lfs)
-    l_train = applier.apply(df=df_train)
-    # print(l_train)
-   # L_dev = applier.apply(df=df_dev)
-
-    coveragefl = []
-    coveragefl = (l_train != ABSTAIN).mean(axis=0)
-    counter=0
-    '''
-    for x in coveragefl:
-        print(f" {x}: {coveragefl[counter] * 100:.1f}%")
-        counter += 1
-  
-    label_model = LabelModel(cardinality=2, verbose=True)
-    label_model.fit(L_train=l_train, n_epochs=500, lr=0.001, log_freq=100, seed=123)
-    '''
-    print("=======")
-    print(LFAnalysis(L=l_train, lfs=lfs).lf_summary())
-
-    majority_model = MajorityLabelVoter()
-    preds_train = majority_model.predict(L=l_train)
-
-    #df_fn_train = df_train[["text", "label"]].iloc[buckets[(REF, NO_REF)]]
-    #print(df_fn_train.sample(5, random_state=3))
-    #print(preds_train)
-
-    for x in range(preds_train.size):
-        df_train['tag'][x]=preds_train[x]
-
-    print("=======================")
-   # print(df_train)
-    df_train.to_csv(r'C:\private\Shaked\Technion\shaked_technion\winter 2019-2020\project_new\file.csv', index=False)
-
-
-
-#אנו רוצים שהדאטאפריים שלנו יכיל 2 עמודות text label
-#Y_dev = df_dev.label.values
-#Y_valid = df_valid.label.values
 
 
 def create_devset(train_set):
@@ -208,11 +161,77 @@ def create_devset(train_set):
     return dev
 
 
+def run_lf_on_data():
+    df_train, df_test = load_torat_emet_data()
+    df_dev = pd.read_csv('dev_22.12.csv')
+    df_train.to_csv(r'C:\private\Shaked\Technion\shaked_technion\winter 2019-2020\project_new\df_train.csv',
+                    index=False)
+
+    #df_dev = create_devset(df_train)
+    print(f"Dev REF frequency: {100 * (df_dev.tag.values == REF).mean():.1f}%")
+
+    #TODO: when creating test and dev, use split function
+    #TODO: -to devide 50/50 between them
+    Y_dev = df_dev.tag.values
+    #TODO:add validation set and dev set
+
+    lfs = [if_parenthesis, if_perek, if_daf, if_mashechet,
+           if_amod, if_begin_or_end_of_perek]
+
+    applier = PandasLFApplier(lfs=lfs)
+    l_train = applier.apply(df=df_train)
+
+    l_dev = applier.apply(df=df_dev)
+
+    coverage_if_parenthesis, coverage_if_perek, coverage_if_daf, coverage_if_mashechet,\
+    coverage_if_amod, coverage_if_begin_or_end_of_perek = (l_train != ABSTAIN).mean(axis=0)
+
+    print(f"coverage_if_parenthesis: {coverage_if_parenthesis * 100:.1f}%")
+    print(f"coverage_if_perek: {coverage_if_perek * 100:.1f}%")
+    print(f"coverage_if_daf: {coverage_if_daf * 100:.1f}%")
+    print(f"coverage_if_mashechet: {coverage_if_mashechet * 100:.1f}%")
+    print(f"coverage_if_amod: {coverage_if_amod * 100:.1f}%")
+    print(f"coverage_if_begin_or_end_of_perek: {coverage_if_begin_or_end_of_perek * 100:.1f}%")
+
+
+    #label_model = LabelModel(cardinality=2, verbose=True)
+    #label_model.fit(L_train=l_train, n_epochs=500, lr=0.001, log_freq=100, seed=123)
+
+    print("=======")
+    print(" summary of l_train ")
+    print(LFAnalysis(L=l_train, lfs=lfs).lf_summary())
+    print(" summary of l_dev - only tagged ")
+    print(LFAnalysis(L=l_dev, lfs=lfs).lf_summary(Y=Y_dev))
+
+
+# part c - see what lf mislabeled and compare with other lfs
+    buckets = get_label_buckets(Y_dev, l_dev[:, 1])
+    print(" indexes of ngram where lf mislabeled ")
+    print(df_dev.iloc[buckets[(NO_REF, REF)]])
+
+    print(" check what this lf caught - check if_mashecet - will be 10 samples")
+    print(df_train.iloc[l_train[:, 3] ==REF].sample(10, random_state=1))
+
+
+    majority_model = MajorityLabelVoter()
+    preds_train = majority_model.predict(L=l_train)
+
+    #TODO: compare this model with other model
+    print(" === result ===")
+    print (preds_train)
+    #for debuging, exe preds train to file
+    #savetxt('preds_t',preds_train, delimiter=',')
+
+    #put predicted labels in df train
+    df_train['tag'] = preds_train
+
+    print("final")
+    print(df_train)
+    df_train.to_csv(r'C:\private\Shaked\Technion\shaked_technion\winter 2019-2020\project_new\labeled_data.csv', index=False)
+
+
 def main():
-    #csv_to_string()
-    # s = "a b c d e sdf next next1 next2 next3"
-    # new = generate_ngrams(s, 6)
-    #print((new))
+
     run_lf_on_data()
     #df_train, df_test = load_torat_emet_data()
     #dev = create_devset(df_train)
@@ -220,14 +239,4 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
-
-
-
-
-#this is how we print it
-#print(f"check_out coverage: {coverage_check_out * 100:.1f}%")
-#print(f"check coverage: {coverage_check * 100:.1f}%")
 
