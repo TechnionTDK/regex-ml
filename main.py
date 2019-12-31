@@ -34,15 +34,26 @@ NO_REF = 0
 SAMPLE_SIZE = 100
 K_GRAM = 6
 
+
+def split_into_sentences(text):
+    if ".)" in text: text=text.replace(".)","<prd>)")
+    sentences = text.split(".")
+    text = text.replace("<prd>", ".")
+    for s in sentences:
+        s = s.replace("<prd>", ".")
+        print(s)
+    return sentences
+
+
 def load_torat_emet_data(): #TODO:in example it is in utils, in our case it is here, so transfer func
     df = pd.read_csv('csvRes.csv')
     data = ''
     k_gram_series = pd.Series()
-
     for x in range(SAMPLE_SIZE):
         data = df['text'][x]
-        k_gram_series_for_one = pd.Series(generate_ngrams(data, K_GRAM))
-        k_gram_series= k_gram_series.append(k_gram_series_for_one, ignore_index=True)
+        for sentence in split_into_sentences(data):
+            k_gram_series_for_one = pd.Series(generate_ngrams(sentence, K_GRAM))
+            k_gram_series= k_gram_series.append(k_gram_series_for_one, ignore_index=True)
     #print(k_gram_series)
    # k_gram_series = pd.Series(generate_ngrams(whole_text, K_GRAM))
 
@@ -231,8 +242,8 @@ def run_lf_on_data():
 
 
 def main():
-
-    run_lf_on_data()
+    load_torat_emet_data()
+    # run_lf_on_data()
     #df_train, df_test = load_torat_emet_data()
     #dev = create_devset(df_train)
 
