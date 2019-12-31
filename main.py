@@ -1,12 +1,13 @@
 from snorkel.labeling import labeling_function
+import re
 import pandas as pd
 from nltk import ngrams
-import re
-
+import labeled_function
 from sklearn.model_selection import train_test_split
 from snorkel.labeling import LabelModel
 from snorkel.labeling import MajorityLabelVoter
 from numpy import savetxt
+import utility
 
 # from utils import load_torat_emet_dataset
 
@@ -33,36 +34,10 @@ NO_REF = 0
 
 SAMPLE_SIZE = 100
 K_GRAM = 6
+MIN_N_GRAM_SIZE = 3
+MAX_N_GRAM_SIZE = 7
 
 
-def split_into_sentences(text):
-    if ".)" in text: text=text.replace(".)","<prd>)")
-    sentences = text.split(".")
-    text = text.replace("<prd>", ".")
-    for s in sentences:
-        s = s.replace("<prd>", ".")
-        print(s)
-    return sentences
-
-
-def load_torat_emet_data(): #TODO:in example it is in utils, in our case it is here, so transfer func
-    df = pd.read_csv('csvRes.csv')
-    data = ''
-    k_gram_series = pd.Series()
-    for x in range(SAMPLE_SIZE):
-        data = df['text'][x]
-        for sentence in split_into_sentences(data):
-            k_gram_series_for_one = pd.Series(generate_ngrams(sentence, K_GRAM))
-            k_gram_series= k_gram_series.append(k_gram_series_for_one, ignore_index=True)
-    #print(k_gram_series)
-   # k_gram_series = pd.Series(generate_ngrams(whole_text, K_GRAM))
-
-    data_frame = pd.DataFrame({'text': k_gram_series})
-    #print(data_frame.size)
-    data_frame['tag'] = ABSTAIN
-    training_set, test_set = train_test_split(data_frame, test_size=0.2)
-    return training_set, test_set
-    #print(data_frame) #now we have untagged df
 
 
 def csv_to_string():
@@ -74,26 +49,6 @@ def csv_to_string():
         data+= df['text'][x]
     #print(data)
     return data
-
-
-def generate_ngrams(s, n):
-    # Convert to lowercases
-    s = s.lower()
-
-    # Replace all none alphanumeric characters with spaces
-    # s = re.sub(r'[^a-zA-Z0-9\s]', ' ', s)
-
-    # Break sentence in the token, remove empty tokens
-    tokens = [token for token in s.split(" ") if token != ""]
-  
-    # Use the zip function to help us generate n-grams
-    # Concatentate the tokens into ngrams and return
-    ngrams = zip(*[tokens[i:] for i in range(n)])
-    return [" ".join(ngram) for ngram in ngrams]
-
-
-
-
 
 
 # Global strings array containing "Masachtot" names
@@ -110,48 +65,6 @@ MASACHTOT_BAVLI = ['דברכות','ברכות', 'פאה', 'דמאי', 'כלאי�
 
 
 
-
-@labeling_function()
-def if_parenthesis(x):
-    """check if data contain ()"""
-    return REF if "(" in x.text and ")" in x.text else ABSTAIN
-    #TODO change to regular expresion
-
-@labeling_function()
-def if_perek(x):
-    """check if contains chapter or versions of it"""
-    return REF if "פרק" in x.text or "בפרק" in x.text or "בפ'" in x.text or "בפ\"ב" in x.text\
-                  or "בפ\"ק" in x.text or "בסוף פרק" in x.text or "פירקא" in x.text else ABSTAIN
-
-
-@labeling_function()
-def if_begin_or_end_of_perek(x):
-    """check if contains בבתרא או בקמא"""
-    return REF if "בקמא" in x.text or "בבתרא" in x.text else ABSTAIN
-#TODO add also קמא בתרא mabye we need change the check , here it maby substring and catch בקמאות
-
-
-@labeling_function()
-def if_amod(x):
-    """check if contains amood"""
-    #TODO: check whether to change parenthesis direction.
-    return REF if ")." in x.text or "):" in x.text else ABSTAIN
-
-
-
-@labeling_function()
-def if_mashechet(x):
-    """check if contains mashechet"""
-    for mashechet in MASACHTOT_BAVLI:
-        if mashechet in x.text:
-            return REF
-    return ABSTAIN
-
-
-@labeling_function()
-def if_daf(x):
-    """check if contains page"""
-    return REF if "דף" in x.text else ABSTAIN
 
 
 
@@ -173,7 +86,7 @@ def create_devset(train_set):
 
 
 def run_lf_on_data():
-    df_train, df_test = load_torat_emet_data()
+    df_train, df_test = utility.load_torat_emet_data()
     df_dev = pd.read_csv('dev_22.12.csv')
     df_train.to_csv(r'C:\private\Shaked\Technion\shaked_technion\winter 2019-2020\project_new\df_train.csv',
                     index=False)
@@ -186,8 +99,8 @@ def run_lf_on_data():
     Y_dev = df_dev.tag.values
     #TODO:add validation set and dev set
 
-    lfs = [if_parenthesis, if_perek, if_daf, if_mashechet,
-           if_amod, if_begin_or_end_of_perek]
+    lfs = [labeled_function.if_parenthesis, labeled_function.if_perek, labeled_function.if_daf, labeled_function.if_mashechet,
+           labeled_function.if_amod, labeled_function.if_begin_or_end_of_perek]
 
     applier = PandasLFApplier(lfs=lfs)
     l_train = applier.apply(df=df_train)
@@ -238,12 +151,12 @@ def run_lf_on_data():
 
     print("final")
     print(df_train)
-    df_train.to_csv(r'C:\private\Shaked\Technion\shaked_technion\winter 2019-2020\project_new\labeled_data.csv', index=False)
+    df_train.to_csv(r'C:\private\Shaked\Technion\shaked_technion\winter 2019-2020\project\labeled_data.csv', index=False)
 
 
 def main():
-    load_torat_emet_data()
-    # run_lf_on_data()
+    #load_torat_emet_data()
+    run_lf_on_data()
     #df_train, df_test = load_torat_emet_data()
     #dev = create_devset(df_train)
 
