@@ -98,25 +98,36 @@ def run_lf_on_data():
     #TODO: -to devide 50/50 between them
     Y_dev = df_dev.tag.values
     #TODO:add validation set and dev set
-
+    """
+    lfs = [labeled_function.if_parenthesis, labeled_function.if_perek, labeled_function.if_begins_with_perek,
+           labeled_function.if_daf, labeled_function.if_mashechet,
+           labeled_function.if_amod, labeled_function.if_begin_or_end_of_perek, labeled_function.check_mishna, 
+           labeled_function.check_legal_paren_num]
+    """
     lfs = [labeled_function.if_parenthesis, labeled_function.if_perek, labeled_function.if_daf, labeled_function.if_mashechet,
-           labeled_function.if_amod, labeled_function.if_begin_or_end_of_perek]
-
+       labeled_function.if_amod, labeled_function.if_begin_or_end_of_perek, labeled_function.check_mishna,
+           labeled_function.check_legal_paren_num]
     applier = PandasLFApplier(lfs=lfs)
     l_train = applier.apply(df=df_train)
 
     l_dev = applier.apply(df=df_dev)
-
-    coverage_if_parenthesis, coverage_if_perek, coverage_if_daf, coverage_if_mashechet,\
-    coverage_if_amod, coverage_if_begin_or_end_of_perek = (l_train != ABSTAIN).mean(axis=0)
+    """
+    coverage_if_parenthesis, coverage_if_perek, coverage_if_begins_with_perek, coverage_if_daf, coverage_if_mashechet,\
+    coverage_if_amod, coverage_if_begin_or_end_of_perek  = (l_train != ABSTAIN).mean(axis=0)
+    """
+    coverage_if_parenthesis, coverage_if_perek, coverage_if_daf, coverage_if_mashechet, \
+    coverage_if_amod, coverage_if_begin_or_end_of_perek , coverage_check_mishna , \
+        coverage_check_legal_paren_num= (l_train != ABSTAIN).mean(axis=0)
 
     print(f"coverage_if_parenthesis: {coverage_if_parenthesis * 100:.1f}%")
     print(f"coverage_if_perek: {coverage_if_perek * 100:.1f}%")
+   # print(f"coverage_if_begins_with_perek: {coverage_if_begins_with_perek * 100:.1f}%")
     print(f"coverage_if_daf: {coverage_if_daf * 100:.1f}%")
     print(f"coverage_if_mashechet: {coverage_if_mashechet * 100:.1f}%")
     print(f"coverage_if_amod: {coverage_if_amod * 100:.1f}%")
     print(f"coverage_if_begin_or_end_of_perek: {coverage_if_begin_or_end_of_perek * 100:.1f}%")
-
+    print(f"coverage_check_mishna: {coverage_check_mishna * 100:.1f}%")
+    print(f"coverage_check_legal_paren_num: {coverage_check_legal_paren_num * 100:.1f}%")
 
     #label_model = LabelModel(cardinality=2, verbose=True)
     #label_model.fit(L_train=l_train, n_epochs=500, lr=0.001, log_freq=100, seed=123)
@@ -159,8 +170,19 @@ def main():
     run_lf_on_data()
     #df_train, df_test = load_torat_emet_data()
     #dev = create_devset(df_train)
-
-
+    """
+    exam = "אני אוהבת רת זה"
+    counter = 0
+    for letter in exam:
+        if counter < 0:
+           break
+        if letter == '(':
+            counter += 1
+            continue
+        if letter == ')':
+            counter -= 1
+    print(counter)
+"""
 if __name__ == "__main__":
     main()
 
