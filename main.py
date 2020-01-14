@@ -167,22 +167,34 @@ def run_lf_on_data():
 
 def main():
     #load_torat_emet_data()
-    run_lf_on_data()
+    #run_lf_on_data()
     #df_train, df_test = load_torat_emet_data()
     #dev = create_devset(df_train)
+    """ exam = "אני אוהבת רת זה (דף י''א)"
+    pattern1 = '.*([(].*[)])$'
+    result = re.match(pattern1, exam)
+    if result:
+         print("true")
+    else:
+        print ("false")
+    exam = "אני אוהבת רת זה (דף י''א) דכדדה"
+
+    result = re.match(pattern1, exam)
     """
-    exam = "אני אוהבת רת זה"
-    counter = 0
-    for letter in exam:
-        if counter < 0:
-           break
-        if letter == '(':
-            counter += 1
-            continue
-        if letter == ')':
-            counter -= 1
-    print(counter)
-"""
+    exam = "אני אוהבת רת זה ( י''א)"
+    pattern1 = '.*([(].*דף.*[)])$'
+    result = re.match(pattern1, exam)
+    if result:
+        print("true")
+    else:
+        print("false")
+
+    exam = "אני אוהבת רת זה (דף י''א)"
+    result = re.match(pattern1, exam)
+    if result:
+        print("true")
+    else:
+        print("false")
 if __name__ == "__main__":
     main()
 
