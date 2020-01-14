@@ -1,6 +1,7 @@
 
 from snorkel.labeling import labeling_function
 import pandas as pd
+import json
 
 from sklearn.model_selection import train_test_split
 
@@ -64,3 +65,43 @@ def generate_ngrams(s, n):
     # Concatentate the tokens into ngrams and return
     ngrams = zip(*[tokens[i:] for i in range(n)])
     return [" ".join(ngram) for ngram in ngrams]
+
+
+
+# this function was run-once- to create a list of all the name of the chapters in the talmud bavli
+# if you wish to run them again, put all relevant files from git inside project directory
+def collect_talmud_chapters_names():
+    chapter_names=[]
+    for i in range(1,38):
+        fname="talmudbavli-"+str(i)+"-packages.json"
+        #print(fname.strip())
+        collect_talmud_chapters_from_file(fname.strip(),chapter_names)
+    print(chapter_names)
+
+# this function extract for every masecet (each file) its chapters names
+def collect_talmud_chapters_from_file(file,chapters_list):
+
+    with open(file, encoding='utf-8') as pyhthon_file:
+        data = json.loads(pyhthon_file.read())
+        counter = 0
+        for line in data['subjects']:
+            counter += 1
+            if counter == 1:
+                continue
+            name = line['rdfs:label']
+            flag_dash=False
+            flag_skipped_spaces=False
+            extract=""
+            for i in range(len(name)):
+                if name[i] == "-":
+                    flag_dash = True
+                    continue
+                if flag_dash is False:
+                    continue
+                if name[i]==" " and flag_dash and flag_skipped_spaces is False:
+                    continue
+                flag_skipped_spaces=True
+                if flag_dash:
+                        extract+=name[i]
+            chapters_list.append(extract)
+

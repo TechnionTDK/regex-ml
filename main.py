@@ -88,7 +88,7 @@ def create_devset(train_set):
 def run_lf_on_data():
     df_train, df_test = utility.load_torat_emet_data()
     df_dev = pd.read_csv('dev_22.12.csv')
-    df_train.to_csv(r'C:\private\Shaked\Technion\shaked_technion\winter 2019-2020\project_new\df_train.csv',
+    df_train.to_csv(r'df_train.csv',
                     index=False)
 
     #df_dev = create_devset(df_train)
@@ -104,30 +104,22 @@ def run_lf_on_data():
            labeled_function.if_amod, labeled_function.if_begin_or_end_of_perek, labeled_function.check_mishna, 
            labeled_function.check_legal_paren_num]
     """
-    lfs = [labeled_function.if_parenthesis, labeled_function.if_perek, labeled_function.if_daf, labeled_function.if_mashechet,
-       labeled_function.if_amod, labeled_function.if_begin_or_end_of_perek, labeled_function.check_mishna,
-           labeled_function.check_legal_paren_num]
+    lfs = [labeled_function.masechet_then_parans, labeled_function.perek_then_parans, labeled_function.perek_and_sham,
+           labeled_function.mashechet_and_sham, labeled_function.daf_in_parntes, labeled_function.no_double_parans]
     applier = PandasLFApplier(lfs=lfs)
     l_train = applier.apply(df=df_train)
-
     l_dev = applier.apply(df=df_dev)
-    """
-    coverage_if_parenthesis, coverage_if_perek, coverage_if_begins_with_perek, coverage_if_daf, coverage_if_mashechet,\
-    coverage_if_amod, coverage_if_begin_or_end_of_perek  = (l_train != ABSTAIN).mean(axis=0)
-    """
-    coverage_if_parenthesis, coverage_if_perek, coverage_if_daf, coverage_if_mashechet, \
-    coverage_if_amod, coverage_if_begin_or_end_of_perek , coverage_check_mishna , \
-        coverage_check_legal_paren_num= (l_train != ABSTAIN).mean(axis=0)
 
-    print(f"coverage_if_parenthesis: {coverage_if_parenthesis * 100:.1f}%")
-    print(f"coverage_if_perek: {coverage_if_perek * 100:.1f}%")
+    coverage_masechet_then_parans, coverage_perek_then_parans, coverage_perek_and_sham, \
+    coverage_mashechet_and_sham, coverage_daf_in_parntes , coverage_no_double_parans = (l_train != ABSTAIN).mean(axis=0)
+
+    print(f"coverage_masechet_then_parans: {coverage_masechet_then_parans * 100:.1f}%")
+    print(f"coverage_perek_then_parans: {coverage_perek_then_parans * 100:.1f}%")
    # print(f"coverage_if_begins_with_perek: {coverage_if_begins_with_perek * 100:.1f}%")
-    print(f"coverage_if_daf: {coverage_if_daf * 100:.1f}%")
-    print(f"coverage_if_mashechet: {coverage_if_mashechet * 100:.1f}%")
-    print(f"coverage_if_amod: {coverage_if_amod * 100:.1f}%")
-    print(f"coverage_if_begin_or_end_of_perek: {coverage_if_begin_or_end_of_perek * 100:.1f}%")
-    print(f"coverage_check_mishna: {coverage_check_mishna * 100:.1f}%")
-    print(f"coverage_check_legal_paren_num: {coverage_check_legal_paren_num * 100:.1f}%")
+    print(f"coverage_perek_and_sham: {coverage_perek_and_sham * 100:.1f}%")
+    print(f"coverage_mashechet_and_sham: {coverage_mashechet_and_sham * 100:.1f}%")
+    print(f"coverage_daf_in_parntes: {coverage_daf_in_parntes * 100:.1f}%")
+    print(f"coverage_no_double_parans: {coverage_no_double_parans * 100:.1f}%")
 
     #label_model = LabelModel(cardinality=2, verbose=True)
     #label_model.fit(L_train=l_train, n_epochs=500, lr=0.001, log_freq=100, seed=123)
@@ -141,11 +133,11 @@ def run_lf_on_data():
 
 # part c - see what lf mislabeled and compare with other lfs
     buckets = get_label_buckets(Y_dev, l_dev[:, 1])
-    print(" indexes of ngram where lf mislabeled ")
-    print(df_dev.iloc[buckets[(NO_REF, REF)]])
+#    print(" indexes of ngram where lf mislabeled ")
+ #   print(df_dev.iloc[buckets[(NO_REF, REF)]])
 
-    print(" check what this lf caught - check if_mashecet - will be 10 samples")
-    print(df_train.iloc[l_train[:, 3] ==REF].sample(10, random_state=1))
+ #   print(" check what this lf caught - check if_mashecet - will be 10 samples")
+ #   print(df_train.iloc[l_train[:, 3] ==REF].sample(10, random_state=1))
 
 
     majority_model = MajorityLabelVoter()
@@ -162,12 +154,12 @@ def run_lf_on_data():
 
     print("final")
     print(df_train)
-    df_train.to_csv(r'C:\private\Shaked\Technion\shaked_technion\winter 2019-2020\project\labeled_data.csv', index=False)
+    df_train.to_csv(r'\labeled_data.csv', index=False)
 
 
 def main():
     #load_torat_emet_data()
-    #run_lf_on_data()
+    run_lf_on_data()
     #df_train, df_test = load_torat_emet_data()
     #dev = create_devset(df_train)
     """ exam = "אני אוהבת רת זה (דף י''א)"
@@ -181,20 +173,7 @@ def main():
 
     result = re.match(pattern1, exam)
     """
-    exam = "אני אוהבת רת זה ( י''א)"
-    pattern1 = '.*([(].*דף.*[)])$'
-    result = re.match(pattern1, exam)
-    if result:
-        print("true")
-    else:
-        print("false")
 
-    exam = "אני אוהבת רת זה (דף י''א)"
-    result = re.match(pattern1, exam)
-    if result:
-        print("true")
-    else:
-        print("false")
 if __name__ == "__main__":
     main()
 
