@@ -65,9 +65,6 @@ MASACHTOT_BAVLI = ['דברכות','ברכות', 'פאה', 'דמאי', 'כלאי�
 
 
 
-
-
-
 def create_devset(train_set):
     dev = pd.DataFrame(columns=('text', 'tag'))
     counter = 0
