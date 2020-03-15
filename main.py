@@ -32,24 +32,25 @@ REF = 1
 NO_REF = 0
 "maybe we have a rejection function"
 
-SAMPLE_SIZE = 100
+SAMPLE_SIZE = 2
 K_GRAM = 6
 MIN_N_GRAM_SIZE = 3
 MAX_N_GRAM_SIZE = 7
 
 
 
-
+'''
 def csv_to_string():
     df = pd.read_csv('csvRes.csv')
     data =''
     print(df.shape[0])
+    print(df.size)
     #TODO: or real run change 50 to df.shape[0]
     for x in range(SAMPLE_SIZE):
         data+= df['text'][x]
     #print(data)
     return data
-
+'''
 
 # Global strings array containing "Masachtot" names
 MASACHTOT_BAVLI = ['דברכות','ברכות', 'פאה', 'דמאי', 'כלאים', 'שביעית', 'תרומות', 'מעשרות', 'מעשר שני', 'חלה',
@@ -151,7 +152,7 @@ def run_lf_on_data():
 
     print("final")
     print(df_train)
-    df_train.to_csv(r'\labeled_data.csv', index=False)
+    df_train.to_csv(r'C:\Users\rotem\regex-ml\labeled_data.csv', index=False)
 
 
 def main():
@@ -159,6 +160,11 @@ def main():
     run_lf_on_data()
     #df_train, df_test = load_torat_emet_data()
     #dev = create_devset(df_train)
+
+    df = pd.read_csv('csvRes.csv')
+    print("check for us!!!!")
+    print(len(df.index))
+
     """ exam = "אני אוהבת רת זה (דף י''א)"
     pattern1 = '.*([(].*[)])$'
     result = re.match(pattern1, exam)

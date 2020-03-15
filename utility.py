@@ -15,11 +15,10 @@ REF = 1
 
 NO_REF = 0
 
-SAMPLE_SIZE = 100
+SAMPLE_SIZE = 2
 K_GRAM = 6
 MIN_N_GRAM_SIZE = 3
 MAX_N_GRAM_SIZE = 7
-
 
 def split_into_sentences(text):
     if ".)" in text: text = text.replace(".)", "<prd>)")
@@ -34,11 +33,17 @@ def load_torat_emet_data():  # TODO:in example it is in utils, in our case it is
     df = pd.read_csv('csvRes.csv')
     data = ''
     k_gram_series = pd.Series()
-    for x in range(SAMPLE_SIZE):
+    sentence_index = pd.Series()
+    sentence_i=0
+    for x in range(len(df.index)):
         data = df['text'][x]
         for sentence in split_into_sentences(data):
             for n_gram_size in range(MIN_N_GRAM_SIZE, MAX_N_GRAM_SIZE + 1):
                 k_gram_series_for_one = pd.Series(generate_ngrams(sentence, n_gram_size))
+                '''
+                sentence_index_temp = 
+                sentence_index = pd.Series.append(sentence_index,)
+                '''
                 k_gram_series = k_gram_series.append(k_gram_series_for_one, ignore_index=True)
     # print(k_gram_series)
     # k_gram_series = pd.Series(generate_ngrams(whole_text, K_GRAM))
@@ -46,7 +51,7 @@ def load_torat_emet_data():  # TODO:in example it is in utils, in our case it is
     data_frame = pd.DataFrame({'text': k_gram_series})
     # print(data_frame.size)
     data_frame['tag'] = ABSTAIN
-    training_set, test_set = train_test_split(data_frame, test_size=0.2)
+    training_set, test_set = train_test_split(data_frame, test_size=0.0001)
     return training_set, test_set
     # print(data_frame) #now we have untagged df
 

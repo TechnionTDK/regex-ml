@@ -171,7 +171,7 @@ def mashechet_and_sham(x):
 def daf_in_parntes(x):
     """check if data contain daf in parents and finish with parenthesis """
     """finish with parenthesis"""
-    pattern1 = '.*([(].*דף.*[)])$'
+    pattern1 = '.*(([(].*דף.*[)])[:]?)$'
     result = re.match(pattern1, x.text)
     if result:
         return REF
