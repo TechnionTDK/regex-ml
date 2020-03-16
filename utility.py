@@ -1,5 +1,4 @@
 
-from snorkel.labeling import labeling_function
 import pandas as pd
 import json
 
@@ -70,7 +69,6 @@ def generate_ngrams(s, n):
     # Concatentate the tokens into ngrams and return
     ngrams = zip(*[tokens[i:] for i in range(n)])
     return [" ".join(ngram) for ngram in ngrams]
-
 
 
 # this function was run-once- to create a list of all the name of the chapters in the talmud bavli
