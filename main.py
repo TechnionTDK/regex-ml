@@ -1,21 +1,18 @@
-from snorkel.labeling import labeling_function
-import re
 import pandas as pd
-from nltk import ngrams
 import labeled_function
-from sklearn.model_selection import train_test_split
-from snorkel.labeling import LabelModel
+import transformation_function
 from snorkel.labeling import MajorityLabelVoter
-from numpy import savetxt
 import utility
 
 # from utils import load_torat_emet_dataset
 
 from snorkel.labeling import PandasLFApplier
+from snorkel.augmentation import PandasTFApplier
 
 from snorkel.labeling import LFAnalysis
-
 from snorkel.analysis import get_label_buckets
+
+from snorkel.augmentation import RandomPolicy
 
 # import snorkel.labeling
 #@labeling_function()
@@ -52,19 +49,6 @@ def csv_to_string():
     return data
 '''
 
-# Global strings array containing "Masachtot" names
-MASACHTOT_BAVLI = ['דברכות','ברכות', 'פאה', 'דמאי', 'כלאים', 'שביעית', 'תרומות', 'מעשרות', 'מעשר שני', 'חלה',
-                   'ערלה', 'ביכורים', 'שבת','דשבת', 'עירובין', 'ערובין', 'פסחים', 'שקלים', 'יומא', 'סוכה', 'ביצה',
-                   'ראש השנה', 'תענית','דתענית',
-                   'מגילה', 'מועד קטן', 'חגיגה', 'יבמות', 'כתובות', 'נדרים', 'נזיר', 'סוטה', 'גיטין', 'גטין',
-                   'קידושין', 'קדושין',
-                   'בבא קמא', 'בבא מציעא', 'בבא בתרא', 'סנהדרין', 'מכות', 'שבועות', 'עבודה זרה', 'עדיות', 'עדויות',
-                   'הוריות', 'אבות',
-                   'זבחים', 'מנחות', 'חולין', 'בכורות', 'ערכין', 'תמורה', 'כריתות', 'מעילה', 'תמיד', 'מדות', 'קינים',
-                   'כלים', 'אהלות', 'נגעים', 'פרה', 'טהרות', 'מקוואות', 'נדה', 'מכשירין', 'זבים', 'טבול יום', 'ידים',
-                   'עוקצין']
-
-
 
 def create_devset(train_set):
     dev = pd.DataFrame(columns=('text', 'tag'))
@@ -84,7 +68,7 @@ def create_devset(train_set):
 
 
 def run_lf_on_data():
-    df_train, df_test = utility.load_torat_emet_data()
+    df_train, df_test, sentences_number = utility.load_torat_emet_data()
     df_dev = pd.read_csv('dev_22.12.csv')
     df_train.to_csv(r'df_train.csv',
                     index=False)
@@ -150,33 +134,44 @@ def run_lf_on_data():
     #put predicted labels in df train
     df_train['tag'] = preds_train
 
+    for i in range(sentences_number):
+        df_filter_by_sentences = df_train.loc[df_train['sentence_index'] == i]
+        df_filter=df_filter_by_sentences.loc[df_filter_by_sentences['tag'] == 1]
+
+
+# this section handles cases of positively tagged ngram within a bigger positively tagged ngram, and removes it.
+        for row_checked in df_filter.rows:
+            for row_other in df_filter.rows:
+                if row_checked['n_gram_id'] != row_other['n_gram_id'] and row_checked['text'] in row_other['text']:
+                    df_train = df_train[df_train.n_gram_id != row_checked['n_gram_id']]
+                    break
+
     print("final")
     print(df_train)
     df_train.to_csv(r'C:\Users\rotem\regex-ml\labeled_data.csv', index=False)
+    return df_train
 
+def run_tf_on_data(df_train):
+    tfs = [transformation_function.change_perek, transformation_function.change_masechet]
+    random_policy = RandomPolicy(
+        len(tfs), sequence_length=2, n_per_original=2, keep_original=True
+    )
+    tf_applier = PandasTFApplier(tfs, random_policy)
+    df_train_augmented = tf_applier.apply(df_train)
+    Y_train_augmented = df_train_augmented["label"].values
+    return df_train_augmented
 
 def main():
     #load_torat_emet_data()
-    run_lf_on_data()
     #df_train, df_test = load_torat_emet_data()
     #dev = create_devset(df_train)
+
+    df_train = run_lf_on_data()
+    df_agumanted = run_tf_on_data(df_train)
 
     df = pd.read_csv('csvRes.csv')
     print("check for us!!!!")
     print(len(df.index))
 
-    """ exam = "אני אוהבת רת זה (דף י''א)"
-    pattern1 = '.*([(].*[)])$'
-    result = re.match(pattern1, exam)
-    if result:
-         print("true")
-    else:
-        print ("false")
-    exam = "אני אוהבת רת זה (דף י''א) דכדדה"
-
-    result = re.match(pattern1, exam)
-    """
-
 if __name__ == "__main__":
     main()
-

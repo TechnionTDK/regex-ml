@@ -1,5 +1,4 @@
 
-from snorkel.labeling import labeling_function
 import pandas as pd
 import json
 
@@ -34,25 +33,39 @@ def load_torat_emet_data():  # TODO:in example it is in utils, in our case it is
     data = ''
     k_gram_series = pd.Series()
     sentence_index = pd.Series()
-    sentence_i=0
+    sentence_i = 0
     for x in range(len(df.index)):
         data = df['text'][x]
         for sentence in split_into_sentences(data):
             for n_gram_size in range(MIN_N_GRAM_SIZE, MAX_N_GRAM_SIZE + 1):
                 k_gram_series_for_one = pd.Series(generate_ngrams(sentence, n_gram_size))
-                '''
-                sentence_index_temp = 
-                sentence_index = pd.Series.append(sentence_index,)
-                '''
+                print("supposed to print the size of k_gram_series_for_one")
+                print(len(k_gram_series_for_one.index))
+                # check whether to add ".index" or something else for size of a Series
+                sentence_index_temp = pd.Series([sentence_i for x in range(len(k_gram_series_for_one.index))])
+                sentence_index = sentence_index.append(sentence_index_temp, ignore_index=True)
+
                 k_gram_series = k_gram_series.append(k_gram_series_for_one, ignore_index=True)
-    # print(k_gram_series)
+            sentence_i = sentence_i+1
+
+
+
     # k_gram_series = pd.Series(generate_ngrams(whole_text, K_GRAM))
 
-    data_frame = pd.DataFrame({'text': k_gram_series})
+    # adding column to dfwith ngram indices(regardless of their sentences), for filtering uses
+    # in run_lf function, in cases where a kgram and k+1gram were tagged, and we want to delete the kgram line
+    n_gram_id = pd.Series(range(0, len(k_gram_series.index)))
+
+
+    data_frame = pd.DataFrame({'text': k_gram_series, 'sentence_index': sentence_index, 'n_gram_id': n_gram_id})
     # print(data_frame.size)
     data_frame['tag'] = ABSTAIN
+
+    # TODO: REMOVE PRINT FROM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+    print(data_frame)
+
     training_set, test_set = train_test_split(data_frame, test_size=0.0001)
-    return training_set, test_set
+    return training_set, test_set, sentence_i
     # print(data_frame) #now we have untagged df
 
 
@@ -70,7 +83,6 @@ def generate_ngrams(s, n):
     # Concatentate the tokens into ngrams and return
     ngrams = zip(*[tokens[i:] for i in range(n)])
     return [" ".join(ngram) for ngram in ngrams]
-
 
 
 # this function was run-once- to create a list of all the name of the chapters in the talmud bavli
@@ -109,4 +121,3 @@ def collect_talmud_chapters_from_file(file,chapters_list):
                 if flag_dash:
                         extract+=name[i]
             chapters_list.append(extract)
-
