@@ -1,6 +1,5 @@
 import re
 
-# avoid tag
 from snorkel.labeling import labeling_function
 
 ABSTAIN = -1
