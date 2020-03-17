@@ -93,19 +93,21 @@ def choose_random(itm,lst):
 @transformation_function()
 def change_perek(x):
     for perek in SHMOT_PRAKIM:
-        if perek in x.text:
+        perek_ident = " " + perek + " "
+        if perek_ident in x.text:
             new_perek = choose_random(perek,SHMOT_PRAKIM)
             x.text = x.text.replace(perek,new_perek)
             return x
-    return x
+    return None
 
 
 
 @transformation_function()
 def change_masechet(x):
     for masechet in MASACHTOT_BAVLI:
-        if masechet in x.text:
+        masechet_ident = " "+masechet+" "
+        if masechet_ident in x.text:
             new_masechet = choose_random(masechet,MASACHTOT_BAVLI)
             x.text = x.text.replace(masechet,new_masechet)
             return x
-    return x
+    return None

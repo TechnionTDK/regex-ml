@@ -39,8 +39,8 @@ def load_torat_emet_data():  # TODO:in example it is in utils, in our case it is
         for sentence in split_into_sentences(data):
             for n_gram_size in range(MIN_N_GRAM_SIZE, MAX_N_GRAM_SIZE + 1):
                 k_gram_series_for_one = pd.Series(generate_ngrams(sentence, n_gram_size))
-                print("supposed to print the size of k_gram_series_for_one")
-                print(len(k_gram_series_for_one.index))
+                # print("supposed to print the size of k_gram_series_for_one")
+                # print(len(k_gram_series_for_one.index))
                 # check whether to add ".index" or something else for size of a Series
                 sentence_index_temp = pd.Series([sentence_i for x in range(len(k_gram_series_for_one.index))])
                 sentence_index = sentence_index.append(sentence_index_temp, ignore_index=True)
@@ -62,7 +62,7 @@ def load_torat_emet_data():  # TODO:in example it is in utils, in our case it is
     data_frame['tag'] = ABSTAIN
 
     # TODO: REMOVE PRINT FROM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    print(data_frame)
+    # print(data_frame)
 
     training_set, test_set = train_test_split(data_frame, test_size=0.0001)
     return training_set, test_set, sentence_i

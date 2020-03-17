@@ -63,18 +63,20 @@ def create_devset(train_set):
             counter = counter + 1
         if counter == 50:
             break
-    dev.to_csv(r'C:\private\Shaked\Technion\shaked_technion\winter 2019-2020\project_new\dev.csv', index=False)
+    dev.to_csv(r'data\dev.csv', index=False)
     return dev
 
 
 def run_lf_on_data():
+    print("")
+    print("Labeling Functions:")
     df_train, df_test, sentences_number = utility.load_torat_emet_data()
     df_dev = pd.read_csv('dev_22.12.csv')
-    df_train.to_csv(r'df_train.csv',
+    df_train.to_csv(r'data\df_train.csv',
                     index=False)
 
     #df_dev = create_devset(df_train)
-    print(f"Dev REF frequency: {100 * (df_dev.tag.values == REF).mean():.1f}%")
+    # print(f"Dev REF frequency: {100 * (df_dev.tag.values == REF).mean():.1f}%")
 
     #TODO: when creating test and dev, use split function
     #TODO: -to devide 50/50 between them
@@ -90,29 +92,31 @@ def run_lf_on_data():
            labeled_function.mashechet_and_sham, labeled_function.daf_in_parntes, labeled_function.no_double_parans,
            labeled_function.no_mishna]
     applier = PandasLFApplier(lfs=lfs)
+    print("-Applying the labeling functions...")
     l_train = applier.apply(df=df_train)
     l_dev = applier.apply(df=df_dev)
 
     coverage_masechet_then_parans, coverage_perek_then_parans, coverage_perek_and_sham, \
     coverage_mashechet_and_sham, coverage_daf_in_parntes , coverage_no_double_parans, coverage_no_mishna = (l_train != ABSTAIN).mean(axis=0)
-
-    print(f"coverage_masechet_then_parans: {coverage_masechet_then_parans * 100:.1f}%")
-    print(f"coverage_perek_then_parans: {coverage_perek_then_parans * 100:.1f}%")
-   # print(f"coverage_if_begins_with_perek: {coverage_if_begins_with_perek * 100:.1f}%")
-    print(f"coverage_perek_and_sham: {coverage_perek_and_sham * 100:.1f}%")
-    print(f"coverage_mashechet_and_sham: {coverage_mashechet_and_sham * 100:.1f}%")
-    print(f"coverage_daf_in_parntes: {coverage_daf_in_parntes * 100:.1f}%")
-    print(f"coverage_no_double_parans: {coverage_no_double_parans * 100:.1f}%")
-    print(f"coverage_no_mishna: {coverage_no_mishna * 100:.1f}%")
-
+    print("")
+    print(":::::::::::::::::::|LF Coverage|:::::::::::::::::::::::")
+    print(f"::coverage_masechet_then_parans: {coverage_masechet_then_parans * 100:.1f}%")
+    print(f"::coverage_perek_then_parans: {coverage_perek_then_parans * 100:.1f}%")
+   # print(f"::coverage_if_begins_with_perek: {coverage_if_begins_with_perek * 100:.1f}%")
+    print(f"::coverage_perek_and_sham: {coverage_perek_and_sham * 100:.1f}%")
+    print(f"::coverage_mashechet_and_sham: {coverage_mashechet_and_sham * 100:.1f}%")
+    print(f"::coverage_daf_in_parntes: {coverage_daf_in_parntes * 100:.1f}%")
+    print(f"::coverage_no_double_parans: {coverage_no_double_parans * 100:.1f}%")
+    print(f"::coverage_no_mishna: {coverage_no_mishna * 100:.1f}%")
+    print("::::::::::::::::::::::::::::::::::::::::::::::::::::::")
     #label_model = LabelModel(cardinality=2, verbose=True)
     #label_model.fit(L_train=l_train, n_epochs=500, lr=0.001, log_freq=100, seed=123)
 
-    print("=======")
-    print(" summary of l_train ")
-    print(LFAnalysis(L=l_train, lfs=lfs).lf_summary())
-    print(" summary of l_dev - only tagged ")
-    print(LFAnalysis(L=l_dev, lfs=lfs).lf_summary(Y=Y_dev))
+    # print("=======")
+    # print(" summary of l_train ")
+    # print(LFAnalysis(L=l_train, lfs=lfs).lf_summary())
+    # print(" summary of l_dev - only tagged ")
+    # print(LFAnalysis(L=l_dev, lfs=lfs).lf_summary(Y=Y_dev))
 
 
 # part c - see what lf mislabeled and compare with other lfs
@@ -123,17 +127,18 @@ def run_lf_on_data():
  #   print(" check what this lf caught - check if_mashecet - will be 10 samples")
  #   print(df_train.iloc[l_train[:, 3] ==REF].sample(10, random_state=1))
 
-
+    print("-Applying the MajorityLabelVoter...")
     majority_model = MajorityLabelVoter()
     preds_train = majority_model.predict(L=l_train)
 
     #TODO: compare this model with other model
-    print(" === result ===")
-    print (preds_train)
+    # print(" === result ===")
+    # print (preds_train)
     #for debuging, exe preds train to file
     #savetxt('preds_t',preds_train, delimiter=',')
 
     #put predicted labels in df train
+    print("-Removing unnecessary n-grams...")
     df_train['tag'] = preds_train
     for i in range(sentences_number):
         df_filter_by_sentences = df_train.loc[df_train['sentence_index'] == i]
@@ -146,19 +151,23 @@ def run_lf_on_data():
                     df_train = df_train[df_train.n_gram_id != df_filter['n_gram_id'][row_checked]]
                     break
 
-    print("final")
-    print(df_train)
-    df_train.to_csv(r'C:\Users\rotem\regex-ml\labeled_data.csv', index=False)
+    print("-Dropping the extra columns...")
+    df_train = df_train.drop(["sentence_index","n_gram_id"],axis=1)
+    print("DONE")
     return df_train
 
 def run_tf_on_data(df_train):
+    print("")
+    print("Transformation Functions:")
     tfs = [transformation_function.change_perek, transformation_function.change_masechet]
     random_policy = RandomPolicy(
-        len(tfs), sequence_length=2, n_per_original=2, keep_original=True
+        len(tfs), sequence_length=2, n_per_original=5, keep_original=True
     )
+    print("-Applying the transformation functions...")
     tf_applier = PandasTFApplier(tfs, random_policy)
     df_train_augmented = tf_applier.apply(df_train)
-    Y_train_augmented = df_train_augmented["label"].values
+    # Y_train_augmented = df_train_augmented["tag"].values
+    print("DONE")
     return df_train_augmented
 
 def main():
@@ -167,7 +176,12 @@ def main():
     #dev = create_devset(df_train)
 
     df_train = run_lf_on_data()
-    df_agumanted = run_tf_on_data(df_train)
+    df_train.to_csv(r'data\labeled_data.csv', index=False)
+    df_augmented = run_tf_on_data(df_train)
+    df_augmented.to_csv(r'data\labeled_data_augmented.csv', index=False)
+
+    print(f"Original training set size: {len(df_train)}")
+    print(f"Augmented training set size: {len(df_augmented)}")
 
     df = pd.read_csv('csvRes.csv')
     print("check for us!!!!")
