@@ -29,7 +29,7 @@ REF = 1
 NO_REF = 0
 "maybe we have a rejection function"
 
-SAMPLE_SIZE = 2
+SAMPLE_SIZE = 3
 K_GRAM = 6
 MIN_N_GRAM_SIZE = 3
 MAX_N_GRAM_SIZE = 7
@@ -87,13 +87,14 @@ def run_lf_on_data():
            labeled_function.check_legal_paren_num]
     """
     lfs = [labeled_function.masechet_then_parans, labeled_function.perek_then_parans, labeled_function.perek_and_sham,
-           labeled_function.mashechet_and_sham, labeled_function.daf_in_parntes, labeled_function.no_double_parans]
+           labeled_function.mashechet_and_sham, labeled_function.daf_in_parntes, labeled_function.no_double_parans,
+           labeled_function.no_mishna]
     applier = PandasLFApplier(lfs=lfs)
     l_train = applier.apply(df=df_train)
     l_dev = applier.apply(df=df_dev)
 
     coverage_masechet_then_parans, coverage_perek_then_parans, coverage_perek_and_sham, \
-    coverage_mashechet_and_sham, coverage_daf_in_parntes , coverage_no_double_parans = (l_train != ABSTAIN).mean(axis=0)
+    coverage_mashechet_and_sham, coverage_daf_in_parntes , coverage_no_double_parans, coverage_no_mishna = (l_train != ABSTAIN).mean(axis=0)
 
     print(f"coverage_masechet_then_parans: {coverage_masechet_then_parans * 100:.1f}%")
     print(f"coverage_perek_then_parans: {coverage_perek_then_parans * 100:.1f}%")
@@ -102,6 +103,7 @@ def run_lf_on_data():
     print(f"coverage_mashechet_and_sham: {coverage_mashechet_and_sham * 100:.1f}%")
     print(f"coverage_daf_in_parntes: {coverage_daf_in_parntes * 100:.1f}%")
     print(f"coverage_no_double_parans: {coverage_no_double_parans * 100:.1f}%")
+    print(f"coverage_no_mishna: {coverage_no_mishna * 100:.1f}%")
 
     #label_model = LabelModel(cardinality=2, verbose=True)
     #label_model.fit(L_train=l_train, n_epochs=500, lr=0.001, log_freq=100, seed=123)
@@ -133,17 +135,15 @@ def run_lf_on_data():
 
     #put predicted labels in df train
     df_train['tag'] = preds_train
-
     for i in range(sentences_number):
         df_filter_by_sentences = df_train.loc[df_train['sentence_index'] == i]
-        df_filter=df_filter_by_sentences.loc[df_filter_by_sentences['tag'] == 1]
-
-
-# this section handles cases of positively tagged ngram within a bigger positively tagged ngram, and removes it.
-        for row_checked in df_filter.rows:
-            for row_other in df_filter.rows:
-                if row_checked['n_gram_id'] != row_other['n_gram_id'] and row_checked['text'] in row_other['text']:
-                    df_train = df_train[df_train.n_gram_id != row_checked['n_gram_id']]
+        df_filter = df_filter_by_sentences.loc[df_filter_by_sentences['tag'] == 1]
+        # this section handles cases of positively tagged ngram within a bigger positively tagged ngram, and removes it.
+        for row_checked in df_filter.index:
+            for row_other in df_filter.index:
+                if df_filter['n_gram_id'][row_checked] != df_filter['n_gram_id'][row_other] and \
+                        df_filter['text'][row_checked] in df_filter['text'][row_other]:
+                    df_train = df_train[df_train.n_gram_id != df_filter['n_gram_id'][row_checked]]
                     break
 
     print("final")

@@ -14,7 +14,7 @@ REF = 1
 
 NO_REF = 0
 
-SAMPLE_SIZE = 2
+SAMPLE_SIZE = 3
 K_GRAM = 6
 MIN_N_GRAM_SIZE = 3
 MAX_N_GRAM_SIZE = 7
@@ -34,7 +34,7 @@ def load_torat_emet_data():  # TODO:in example it is in utils, in our case it is
     k_gram_series = pd.Series()
     sentence_index = pd.Series()
     sentence_i = 0
-    for x in range(len(df.index)):
+    for x in range(SAMPLE_SIZE):
         data = df['text'][x]
         for sentence in split_into_sentences(data):
             for n_gram_size in range(MIN_N_GRAM_SIZE, MAX_N_GRAM_SIZE + 1):
