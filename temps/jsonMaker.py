@@ -1,4 +1,3 @@
-import codecs
 
 # Global strings array containing "Masachtot" names
 MASACHTOT_BAVLI = ['ברכות', 'פאה', 'דמאי', 'כלאים', 'שביעית', 'תרומות', 'מעשרות', 'מעשר שני', 'חלה',
