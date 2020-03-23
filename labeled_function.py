@@ -24,6 +24,23 @@ def masechet_then_parans(x):
         return REF
     return ABSTAIN
 
+@labeling_function()
+def mashechet_and_sham(x):
+    """check if data contain mashechet and שם """
+    count = 0
+    """check if contains mashechet"""
+    for mashechet in MASACHTOT_BAVLI:
+        if mashechet in x.text:
+            count = 1
+    """finish with שם """
+    pattern1 = '.*(שם)$'
+    result = re.match(pattern1, x.text)
+    if result:
+        count += 1
+    if count >= 2:
+        return REF
+    return ABSTAIN
+
 
 @labeling_function()
 def perek_then_parans(x):
@@ -63,24 +80,6 @@ def perek_and_sham(x):
 
 
 @labeling_function()
-def mashechet_and_sham(x):
-    """check if data contain mashechet and שם """
-    count = 0
-    """check if contains mashechet"""
-    for mashechet in MASACHTOT_BAVLI:
-        if mashechet in x.text:
-            count = 1
-    """finish with שם """
-    pattern1 = '.*(שם)$'
-    result = re.match(pattern1, x.text)
-    if result:
-        count += 1
-    if count >= 2:
-        return REF
-    return ABSTAIN
-
-
-@labeling_function()
 def daf_in_parntes(x):
     """check if data contain daf in parents and finish with parenthesis """
     """finish with parenthesis"""
@@ -99,7 +98,6 @@ def no_double_parans(x):
     if x.text.count("(") != x.text.count("("):
         return NO_REF
     return ABSTAIN
-
 
 @labeling_function()
 def no_mishna(x):

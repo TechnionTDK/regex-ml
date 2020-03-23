@@ -1,8 +1,9 @@
 import pandas as pd
+import datetime
 from snorkel.labeling import MajorityLabelVoter
 from snorkel.labeling import PandasLFApplier
 from snorkel.augmentation import PandasTFApplier
-# from snorkel.labeling import LFAnalysis
+from snorkel.labeling import LFAnalysis
 # from snorkel.analysis import get_label_buckets
 from snorkel.augmentation import RandomPolicy
 
@@ -26,6 +27,33 @@ def csv_to_string():
     return data
 '''
 
+def print_analysis(l_train,lfs):
+    """ Prints LF's coverage and statistics """
+    coverage_masechet_then_parans, coverage_perek_then_parans, coverage_perek_and_sham, \
+    coverage_mashechet_and_sham, coverage_daf_in_parntes, coverage_no_double_parans, coverage_no_mishna = (
+                l_train != ABSTAIN).mean(axis=0)
+    txt_file = open(r"data/analysis.txt", "a+")
+    txt_file.write("\n\n")
+    txt_file.write('Analysis for date ['+str(datetime.datetime.now())+']: \n')
+    txt_file.write("\n\n")
+    txt_file.write(":::::::::::::::::::::::::::|LFs Coverage|::::::::::::::::::::::::::::::::\n")
+    txt_file.write(f"coverage_masechet_then_parans: {coverage_masechet_then_parans * 100:.1f}%\n")
+    txt_file.write(f"coverage_perek_then_parans: {coverage_perek_then_parans * 100:.1f}%\n")
+    txt_file.write(f"coverage_perek_and_sham: {coverage_perek_and_sham * 100:.1f}%\n")
+    txt_file.write(f"coverage_mashechet_and_sham: {coverage_mashechet_and_sham * 100:.1f}%\n")
+    txt_file.write(f"coverage_daf_in_parntes: {coverage_daf_in_parntes * 100:.1f}%\n")
+    txt_file.write(f"coverage_no_double_parans: {coverage_no_double_parans * 100:.1f}%\n")
+    txt_file.write(f"coverage_no_mishna: {coverage_no_mishna * 100:.1f}%\n")
+    txt_file.write(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n")
+    txt_file.write(":::::::::::::::::::::::|LFs Summary - l_train|:::::::::::::::::::::::::::\n")
+    txt_file.write(LFAnalysis(L=l_train, lfs=lfs).lf_summary().to_string())
+    txt_file.write("\n")
+    txt_file.write(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n")
+    # txt_file.write("::::::::::::::::::::::::|LFs Summary - l_dev|::::::::::::::::::::::::::::\n")
+    # txt_file.write(LFAnalysis(L=l_dev, lfs=lfs).lf_summary(Y=Y_dev).to_string())
+    # txt_file.write("\n")
+    # txt_file.write(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n")
+    txt_file.close()
 
 def create_devset(train_set):
     dev = pd.DataFrame(columns=('text', 'tag'))
@@ -61,42 +89,22 @@ def apply_lf_on_data(df_train,df_dev,sentences_number):
     l_train = applier.apply(df=df_train)
     l_dev = applier.apply(df=df_dev)
 
-    coverage_masechet_then_parans, coverage_perek_then_parans, coverage_perek_and_sham, \
-    coverage_mashechet_and_sham, coverage_daf_in_parntes , coverage_no_double_parans, coverage_no_mishna = (l_train != ABSTAIN).mean(axis=0)
-    # print("")
-    # print(":::::::::::::::::::|LF Coverage|:::::::::::::::::::::::")
-    # print(f":: coverage_masechet_then_parans: {coverage_masechet_then_parans * 100:.1f}%")
-    # print(f":: coverage_perek_then_parans: {coverage_perek_then_parans * 100:.1f}%")
-    # print(f":: coverage_if_begins_with_perek: {coverage_if_begins_with_perek * 100:.1f}%")
-    # print(f":: coverage_perek_and_sham: {coverage_perek_and_sham * 100:.1f}%")
-    # print(f":: coverage_mashechet_and_sham: {coverage_mashechet_and_sham * 100:.1f}%")
-    # print(f":: coverage_daf_in_parntes: {coverage_daf_in_parntes * 100:.1f}%")
-    # print(f":: coverage_no_double_parans: {coverage_no_double_parans * 100:.1f}%")
-    # print(f":: coverage_no_mishna: {coverage_no_mishna * 100:.1f}%")
-    # print("::::::::::::::::::::::::::::::::::::::::::::::::::::::")
-    #label_model = LabelModel(cardinality=2, verbose=True)
-    #label_model.fit(L_train=l_train, n_epochs=500, lr=0.001, log_freq=100, seed=123)
+    print_analysis(l_train,lfs)
 
-    # print("=======")
-    # print(" summary of l_train ")
-    # print(LFAnalysis(L=l_train, lfs=lfs).lf_summary())
-    # print(" summary of l_dev - only tagged ")
-    # print(LFAnalysis(L=l_dev, lfs=lfs).lf_summary(Y=Y_dev))
-
-
-# part c - see what lf mislabeled and compare with other lfs
-#    buckets = get_label_buckets(Y_dev, l_dev[:, 1])
-#    print(" indexes of ngram where lf mislabeled ")
- #   print(df_dev.iloc[buckets[(NO_REF, REF)]])
-
- #   print(" check what this lf caught - check if_mashecet - will be 10 samples")
- #   print(df_train.iloc[l_train[:, 3] ==REF].sample(10, random_state=1))
+    '''
+    # part c - see what lf mislabeled and compare with other lfs
+    # buckets = get_label_buckets(Y_dev, l_dev[:, 1])
+    # print(" indexes of ngram where lf mislabeled ")
+    # print(df_dev.iloc[buckets[(NO_REF, REF)]])
+    # print(" check what this lf caught - check if_mashecet - will be 10 samples")
+    # print(df_train.iloc[l_train[:, 3] ==REF].sample(10, random_state=1))
+    '''
 
     print("-Applying the MajorityLabelVoter...")
     majority_model = MajorityLabelVoter()
     preds_train = majority_model.predict(L=l_train)
 
-    #TODO: compare this model with other model
+    # TODO: compare this model with other model
     # print(" === result ===")
     # print (preds_train)
     #for debuging, exe preds train to file
@@ -116,8 +124,9 @@ def apply_lf_on_data(df_train,df_dev,sentences_number):
                     df_train = df_train[df_train.n_gram_id != df_filter['n_gram_id'][row_checked]]
                     break
 
-    print("-Dropping the extra columns...")
+    print("-Dropping the abstained and extra columns...")
     df_train = df_train.drop(["sentence_index","n_gram_id"],axis=1)
+    df_train = df_train[df_train['tag'] != ABSTAIN]
     print("DONE")
     return df_train
 
@@ -128,12 +137,15 @@ def apply_tf_on_data(df_train):
     random_policy = RandomPolicy(
         len(tfs), sequence_length=len(tfs), n_per_original=TRANSFORMATION_FACTOR, keep_original=True
     )
-    print("-Applying ["+str(len(tfs))+"] transformation functions with ["+str(TRANSFORMATION_FACTOR)+"] factor...")
+    print("-Applying ["+str(len(tfs))+"] transformation functions with factor ["+str(TRANSFORMATION_FACTOR)+"] ...")
     tf_applier = PandasTFApplier(tfs, random_policy)
     df_train_augmented = tf_applier.apply(df_train)
     # Y_train_augmented = df_train_augmented["tag"].values
     print("DONE")
     return df_train_augmented
+
+def train_model(df):
+    pass
 
 def main():
     # load_dataset()
@@ -155,8 +167,6 @@ def main():
     print(f"Original training set size: {len(df_train_labeled)}")
     print(f"Augmented training set size: {len(df_train_augmented)}")
 
-    # df = pd.read_csv('csvRes.csv')
-    # print(len(df.index))
 
 if __name__ == "__main__":
     main()

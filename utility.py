@@ -15,11 +15,11 @@ REF = 1
 NO_REF = 0
 
 ''' Constants: '''
-SAMPLE_SIZE = 3
+SAMPLE_SIZE = 5
 K_GRAM = 6
 MIN_N_GRAM_SIZE = 3
 MAX_N_GRAM_SIZE = 7
-TRANSFORMATION_FACTOR = 15
+TRANSFORMATION_FACTOR = 8 # needs to be between 0 and number of total masachtot/prakim
 
 ''' Strings arrays containing "Masachtot"&"Prakim" names: '''
 MASACHTOT_BAVLI = ['דברכות', 'ברכות', 'פאה', 'דמאי', 'כלאים', 'שביעית', 'תרומות', 'מעשרות', 'מעשר שני', 'חלה',
@@ -104,7 +104,8 @@ SHMOT_PRAKIM = ['מאימתי', 'היה קורא', 'מי שמתו', 'תפלת ה
                 'תינוקת', 'אע"פ"ץ', 'המקבל']
 
 ######################################################################
-
+#################             Methods            #####################
+######################################################################
 def split_into_sentences(text):
     if ".)" in text: text = text.replace(".)", "<prd>)")
     sentences = text.split(".")

@@ -1,0 +1,25 @@
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+Analysis for date [2020-03-23 14:15:41.001123]: 
+
+
+:::::::::::::::::::::::::::|LFs Coverage|::::::::::::::::::::::::::::::::
+coverage_masechet_then_parans: 0.6%
+coverage_perek_then_parans: 1.1%
+coverage_perek_and_sham: 0.0%
+coverage_mashechet_and_sham: 0.0%
+coverage_daf_in_parntes: 2.2%
+coverage_no_double_parans: 0.3%
+coverage_no_mishna: 9.2%
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::|LFs Summary - l_train|:::::::::::::::::::::::::::
+                      j Polarity  Coverage  Overlaps  Conflicts
+masechet_then_parans  0      [1]  0.006498  0.005776   0.000722
+perek_then_parans     1      [1]  0.010830  0.010830   0.002166
+perek_and_sham        2       []  0.000000  0.000000   0.000000
+mashechet_and_sham    3       []  0.000000  0.000000   0.000000
+daf_in_parntes        4      [1]  0.022383  0.015884   0.002166
+no_double_parans      5      [0]  0.002888  0.002888   0.001444
+no_mishna             6      [0]  0.092419  0.004332   0.002888
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
