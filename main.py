@@ -35,6 +35,8 @@ def print_analysis(l_train,lfs):
     txt_file = open(r"data/analysis.txt", "a+")
     txt_file.write("\n\n")
     txt_file.write('Analysis for date ['+str(datetime.datetime.now())+']: \n')
+    txt_file.write('[SAMPLE_SIZE: ' + str(utility.SAMPLE_SIZE) + '] \n')
+    txt_file.write('[TRANSFORMATION_FACTOR: ' + str(TRANSFORMATION_FACTOR) + '] \n')
     txt_file.write("\n\n")
     txt_file.write(":::::::::::::::::::::::::::|LFs Coverage|::::::::::::::::::::::::::::::::\n")
     txt_file.write(f"coverage_masechet_then_parans: {coverage_masechet_then_parans * 100:.1f}%\n")
@@ -164,9 +166,10 @@ def main():
     df_train_augmented = apply_tf_on_data(df_train_labeled)
     df_train_augmented.to_csv(r'data\labeled_data_augmented.csv', index=False)
 
-    print(f"Original training set size: {len(df_train_labeled)}")
-    print(f"Augmented training set size: {len(df_train_augmented)}")
+    print(f"Original training set size: {len(df_train_labeled)} , # references: {len(df_train_labeled[df_train_labeled['tag']==1].index)}")
+    print(f"Augmented training set size: {len(df_train_augmented)} , # references: {len(df_train_augmented[df_train_augmented['tag']==1].index)}")
 
+    print(f"")
 
 if __name__ == "__main__":
     main()

@@ -15,11 +15,11 @@ REF = 1
 NO_REF = 0
 
 ''' Constants: '''
-SAMPLE_SIZE = 5
+SAMPLE_SIZE = 10
 K_GRAM = 6
 MIN_N_GRAM_SIZE = 3
 MAX_N_GRAM_SIZE = 7
-TRANSFORMATION_FACTOR = 8 # needs to be between 0 and number of total masachtot/prakim
+TRANSFORMATION_FACTOR = 6 # needs to be between 0 and number of total masachtot/prakim
 
 ''' Strings arrays containing "Masachtot"&"Prakim" names: '''
 MASACHTOT_BAVLI = ['דברכות', 'ברכות', 'פאה', 'דמאי', 'כלאים', 'שביעית', 'תרומות', 'מעשרות', 'מעשר שני', 'חלה',
@@ -106,6 +106,28 @@ SHMOT_PRAKIM = ['מאימתי', 'היה קורא', 'מי שמתו', 'תפלת ה
 ######################################################################
 #################             Methods            #####################
 ######################################################################
+
+def print_progress_bar (iteration, total, prefix = '', suffix = '', decimals = 1, length = 100, fill = '█', printEnd = "\r"):
+    """
+    Call in a loop to create terminal progress bar
+    @params:
+        iteration   - Required  : current iteration (Int)
+        total       - Required  : total iterations (Int)
+        prefix      - Optional  : prefix string (Str)
+        suffix      - Optional  : suffix string (Str)
+        decimals    - Optional  : positive number of decimals in percent complete (Int)
+        length      - Optional  : character length of bar (Int)
+        fill        - Optional  : bar fill character (Str)
+        printEnd    - Optional  : end character (e.g. "\r", "\r\n") (Str)
+    """
+    percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
+    filledLength = int(length * iteration // total)
+    bar = fill * filledLength + '-' * (length - filledLength)
+    print('\r%s |%s| %s%% %s' % (prefix, bar, percent, suffix), end = printEnd)
+    # Print New Line on Complete
+    if iteration == total:
+        print()
+
 def split_into_sentences(text):
     if ".)" in text: text = text.replace(".)", "<prd>)")
     sentences = text.split(".")
@@ -114,14 +136,16 @@ def split_into_sentences(text):
         s = s.replace("<prd>", ".")
     return sentences
 
-
 def load_dataset():  # Load "Torat Emet" dataset
+    print("Loading the dataset...")
+    print_progress_bar(0, SAMPLE_SIZE, prefix='Progress:', suffix='Complete', length=50)
     df = pd.read_csv(r'data\csvRes.csv')
     data = ''
     k_gram_series = pd.Series()
     sentence_index = pd.Series()
     sentence_i = 0
     for x in range(SAMPLE_SIZE):
+        print_progress_bar(x + 1, SAMPLE_SIZE, prefix='Progress:', suffix='Complete', length=50)
         data = df['text'][x]
         for sentence in split_into_sentences(data):
             for n_gram_size in range(MIN_N_GRAM_SIZE, MAX_N_GRAM_SIZE + 1):
@@ -152,9 +176,9 @@ def load_dataset():  # Load "Torat Emet" dataset
     # print(data_frame)
 
     training_set, test_set = train_test_split(data_frame, test_size=0.0001)
+    print("Done loading.")
     return training_set, test_set, sentence_i
     # print(data_frame) #now we have untagged df
-
 
 def generate_ngrams(s, n):
     # Convert to lowercases
