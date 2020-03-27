@@ -20,6 +20,7 @@ K_GRAM = 6
 MIN_N_GRAM_SIZE = 3
 MAX_N_GRAM_SIZE = 7
 TRANSFORMATION_FACTOR = 6 # needs to be between 0 and number of total masachtot/prakim
+TEST_RATIO = 0.2 # how to split train and test datasets
 
 ''' Strings arrays containing "Masachtot"&"Prakim" names: '''
 MASACHTOT_BAVLI = ['דברכות', 'ברכות', 'פאה', 'דמאי', 'כלאים', 'שביעית', 'תרומות', 'מעשרות', 'מעשר שני', 'חלה',
@@ -175,7 +176,7 @@ def load_dataset():  # Load "Torat Emet" dataset
     # TODO: REMOVE PRINT FROM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
     # print(data_frame)
 
-    training_set, test_set = train_test_split(data_frame, test_size=0.0001)
+    training_set, test_set = train_test_split(data_frame, test_size=TEST_RATIO)
     print("Done loading.")
     return training_set, test_set, sentence_i
     # print(data_frame) #now we have untagged df

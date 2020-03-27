@@ -1,12 +1,15 @@
 import pandas as pd
 import datetime
+## Snorkel:
 from snorkel.labeling import MajorityLabelVoter
 from snorkel.labeling import PandasLFApplier
 from snorkel.augmentation import PandasTFApplier
 from snorkel.labeling import LFAnalysis
-# from snorkel.analysis import get_label_buckets
 from snorkel.augmentation import RandomPolicy
-
+## sklearn:
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+## Locals:
 import labeled_function
 import transformation_function
 import utility
@@ -57,6 +60,7 @@ def print_analysis(l_train,lfs):
     # txt_file.write(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n")
     txt_file.close()
 
+
 def create_devset(train_set):
     dev = pd.DataFrame(columns=('text', 'tag'))
     counter = 0
@@ -72,6 +76,35 @@ def create_devset(train_set):
             break
     dev.to_csv(r'data\dev.csv', index=False)
     return dev
+
+def create_labeled_data(to_load=False):
+    if to_load:
+        df_train, df_test, sentences_number = utility.load_dataset()
+        # dev = create_devset(df_train)
+        # df_dev = create_devset(df_train)
+        # print(f"Dev REF frequency: {100 * (df_dev.tag.values == REF).mean():.1f}%")
+
+    df_dev = pd.read_csv(r'data\dev_22.12.csv')
+    df_train.to_csv(r'data\df_train.csv', index=False)
+    df_test.to_csv(r'data\df_test.csv', index=False)
+
+    df_train_labeled = apply_lf_on_data(df_train,df_dev,sentences_number)
+    df_train_labeled.to_csv(r'data\labeled_data.csv', index=False)
+
+    df_train_augmented = apply_tf_on_data(df_train_labeled)
+    df_train_augmented.to_csv(r'data\labeled_data_augmented.csv', index=False)
+
+    return df_train,df_train_augmented,df_test
+
+def load_labeled_data(to_create=False):
+    if to_create:
+        df_train_labeled,df_train_augmented,df_test = create_labeled_data()
+    else:
+        df_test = pd.read_csv(r'data\df_test.csv')
+        df_train_labeled = pd.read_csv(r'data\labeled_data.csv')
+        df_train_augmented = pd.read_csv(r'data\labeled_data_augmented.csv')
+    return df_train_labeled,df_train_augmented,df_test
+
 
 def apply_lf_on_data(df_train,df_dev,sentences_number):
     print("")
@@ -146,30 +179,23 @@ def apply_tf_on_data(df_train):
     print("DONE")
     return df_train_augmented
 
-def train_model(df):
-    pass
+def train_model(df_train):
+    train_text = df_train.text.tolist()
+    X_train = CountVectorizer(ngram_range=(1, 2)).fit_transform(train_text)
+
+    clf = LogisticRegression(solver="lbfgs")
+    clf.fit(X=X_train, y=df_train.tag.values)
+
+    print(f"Test Accuracy: {clf.score(X=X_train, y=df_train.tag.values) * 100:.1f}%")
 
 def main():
-    # load_dataset()
-    # df_train, df_test = load_dataset()
-    # dev = create_devset(df_train)
-    # df_dev = create_devset(df_train)
-    # print(f"Dev REF frequency: {100 * (df_dev.tag.values == REF).mean():.1f}%")
-
-    df_train, df_test, sentences_number = utility.load_dataset()
-    df_dev = pd.read_csv(r'data\dev_22.12.csv')
-    df_train.to_csv(r'data\df_train.csv', index=False)
-
-    df_train_labeled = apply_lf_on_data(df_train,df_dev,sentences_number)
-    df_train_labeled.to_csv(r'data\labeled_data.csv', index=False)
-
-    df_train_augmented = apply_tf_on_data(df_train_labeled)
-    df_train_augmented.to_csv(r'data\labeled_data_augmented.csv', index=False)
-
+    df_train_labeled,df_train_augmented,df_test = load_labeled_data(True)
     print(f"Original training set size: {len(df_train_labeled)} , # references: {len(df_train_labeled[df_train_labeled['tag']==1].index)}")
     print(f"Augmented training set size: {len(df_train_augmented)} , # references: {len(df_train_augmented[df_train_augmented['tag']==1].index)}")
 
-    print(f"")
+    # print("Training the model...")
+    # train_model(df_train_augmented);
+    # print("DONE")
 
 if __name__ == "__main__":
     main()
