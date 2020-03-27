@@ -80,10 +80,13 @@ def create_devset(train_set):
 def create_labeled_data(to_load=False):
     if to_load:
         df_train, df_test, sentences_number = utility.load_dataset()
+        df_train.to_csv(r'data\df_train.csv', index=False)
+        df_test.to_csv(r'data\df_test.csv', index=False)
         # dev = create_devset(df_train)
         # df_dev = create_devset(df_train)
         # print(f"Dev REF frequency: {100 * (df_dev.tag.values == REF).mean():.1f}%")
 
+    df_train, df_test, sentences_number = utility.load_dataset()
     df_dev = pd.read_csv(r'data\dev_22.12.csv')
     df_train.to_csv(r'data\df_train.csv', index=False)
     df_test.to_csv(r'data\df_test.csv', index=False)
