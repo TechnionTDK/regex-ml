@@ -9,12 +9,14 @@ from snorkel.augmentation import RandomPolicy
 ## sklearn:
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
 ## Locals:
 import labeled_function
 import transformation_function
 import utility
 from utility import TRANSFORMATION_FACTOR
 from utility import ABSTAIN
+from utility import TEST_RATIO
 
 
 '''
@@ -60,6 +62,11 @@ def print_analysis(l_train,lfs):
     # txt_file.write(":::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n")
     txt_file.close()
 
+def log_print(str):
+    txt_file = open(r"data/analysis.txt", "a+")
+    txt_file.write(str)
+    txt_file.write("\n")
+    txt_file.close()
 
 def create_devset(train_set):
     dev = pd.DataFrame(columns=('text', 'tag'))
@@ -78,26 +85,30 @@ def create_devset(train_set):
     return dev
 
 def create_labeled_data(to_load=False):
-    if to_load:
-        df_train, df_test, sentences_number = utility.load_dataset()
-        df_train.to_csv(r'data\df_train.csv', index=False)
-        df_test.to_csv(r'data\df_test.csv', index=False)
+    #if to_load:
+        # df_train, df_test, sentences_number = utility.load_dataset()
+        # df_train.to_csv(r'data\df_train.csv', index=False)
+        # df_test.to_csv(r'data\df_test.csv', index=False)
         # dev = create_devset(df_train)
         # df_dev = create_devset(df_train)
         # print(f"Dev REF frequency: {100 * (df_dev.tag.values == REF).mean():.1f}%")
 
-    df_train, df_test, sentences_number = utility.load_dataset()
+    df_train, sentences_number = utility.load_dataset()
+
     df_dev = pd.read_csv(r'data\dev_22.12.csv')
     df_train.to_csv(r'data\df_train.csv', index=False)
-    df_test.to_csv(r'data\df_test.csv', index=False)
+
 
     df_train_labeled = apply_lf_on_data(df_train,df_dev,sentences_number)
     df_train_labeled.to_csv(r'data\labeled_data.csv', index=False)
 
     df_train_augmented = apply_tf_on_data(df_train_labeled)
     df_train_augmented.to_csv(r'data\labeled_data_augmented.csv', index=False)
+    # Splitting to test and train:
+    training_set, df_test = train_test_split(df_train_augmented, test_size=TEST_RATIO)
+    df_test.to_csv(r'data\df_test.csv', index=False)
 
-    return df_train,df_train_augmented,df_test
+    return df_train_labeled,training_set,df_test
 
 def load_labeled_data(to_create=False):
     if to_create:
@@ -182,23 +193,30 @@ def apply_tf_on_data(df_train):
     print("DONE")
     return df_train_augmented
 
-def train_model(df_train):
-    train_text = df_train.text.tolist()
-    X_train = CountVectorizer(ngram_range=(1, 2)).fit_transform(train_text)
+def train_model(df_train,df_test):
+    vectorizer = CountVectorizer(ngram_range=(3, 7))
+    X_train = vectorizer.fit_transform(df_train.text.tolist())
+    X_test = vectorizer.transform(df_test.text.tolist())
 
     clf = LogisticRegression(solver="lbfgs")
     clf.fit(X=X_train, y=df_train.tag.values)
 
-    print(f"Test Accuracy: {clf.score(X=X_train, y=df_train.tag.values) * 100:.1f}%")
+    log_print(f"Test Accuracy: {clf.score(X=X_test, y=df_test.tag.values) * 100:.1f}%")
+    return clf
 
 def main():
+    print("Initializing data...")
     df_train_labeled,df_train_augmented,df_test = load_labeled_data(True)
-    print(f"Original training set size: {len(df_train_labeled)} , # references: {len(df_train_labeled[df_train_labeled['tag']==1].index)}")
-    print(f"Augmented training set size: {len(df_train_augmented)} , # references: {len(df_train_augmented[df_train_augmented['tag']==1].index)}")
 
-    # print("Training the model...")
-    # train_model(df_train_augmented);
-    # print("DONE")
+    log_print("::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::")
+    log_print(f"Test data is {TEST_RATIO}% of Train data")
+    log_print(f"Test set size: {len(df_test)} , # references: {len(df_test[df_test['tag']==1].index)}")
+    log_print(f"Original training set size: {len(df_train_labeled)} , # references: {len(df_train_labeled[df_train_labeled['tag']==1].index)}")
+    log_print(f"Augmented training set size: {len(df_train_augmented)} , # references: {len(df_train_augmented[df_train_augmented['tag']==1].index)}")
+
+    print("Training the model...")
+    clf = train_model(df_train_augmented,df_test)
+    print("DONE")
 
 if __name__ == "__main__":
     main()

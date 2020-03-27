@@ -2,7 +2,7 @@
 import pandas as pd
 import json
 
-from sklearn.model_selection import train_test_split
+
 
 
 ######################################################################
@@ -20,7 +20,7 @@ K_GRAM = 6
 MIN_N_GRAM_SIZE = 3
 MAX_N_GRAM_SIZE = 7
 TRANSFORMATION_FACTOR = 6 # needs to be between 0 and number of total masachtot/prakim
-TEST_RATIO = 0.2 # how to split train and test datasets
+TEST_RATIO = 0.30 # how to split train and test datasets
 
 ''' Strings arrays containing "Masachtot"&"Prakim" names: '''
 MASACHTOT_BAVLI = ['דברכות', 'ברכות', 'פאה', 'דמאי', 'כלאים', 'שביעית', 'תרומות', 'מעשרות', 'מעשר שני', 'חלה',
@@ -141,7 +141,7 @@ def load_dataset():  # Load "Torat Emet" dataset
     print("Loading the dataset...")
     print_progress_bar(0, SAMPLE_SIZE, prefix='Progress:', suffix='Complete', length=50)
     df = pd.read_csv(r'data\csvRes.csv')
-    data = ''
+
     k_gram_series = pd.Series()
     sentence_index = pd.Series()
     sentence_i = 0
@@ -160,26 +160,15 @@ def load_dataset():  # Load "Torat Emet" dataset
                 k_gram_series = k_gram_series.append(k_gram_series_for_one, ignore_index=True)
             sentence_i = sentence_i+1
 
-
-
-    # k_gram_series = pd.Series(generate_ngrams(whole_text, K_GRAM))
-
     # adding column to dfwith ngram indices(regardless of their sentences), for filtering uses
     # in run_lf function, in cases where a kgram and k+1gram were tagged, and we want to delete the kgram line
     n_gram_id = pd.Series(range(0, len(k_gram_series.index)))
 
-
     data_frame = pd.DataFrame({'text': k_gram_series, 'sentence_index': sentence_index, 'n_gram_id': n_gram_id})
-    # print(data_frame.size)
     data_frame['tag'] = ABSTAIN
 
-    # TODO: REMOVE PRINT FROM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
-    # print(data_frame)
-
-    training_set, test_set = train_test_split(data_frame, test_size=TEST_RATIO)
     print("Done loading.")
-    return training_set, test_set, sentence_i
-    # print(data_frame) #now we have untagged df
+    return data_frame, sentence_i
 
 def generate_ngrams(s, n):
     # Convert to lowercases
