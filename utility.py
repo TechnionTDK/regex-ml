@@ -11,10 +11,10 @@ REF = 1
 NO_REF = 0
 
 ''' Constants: '''
-SAMPLE_SIZE = 7000
+SAMPLE_SIZE = 10
 MIN_N_GRAM_SIZE = 3
 MAX_N_GRAM_SIZE = 7
-TRANSFORMATION_FACTOR = 6 # needs to be between 0 and number of total masachtot/prakim
+TRANSFORMATION_FACTOR = 5 # needs to be between 0 and number of total masachtot/prakim
 TEST_RATIO = 0.30 # how to split train and test datasets
 
 ''' Strings arrays containing "Masachtot"&"Prakim" names: '''
