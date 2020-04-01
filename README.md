@@ -1,9 +1,22 @@
 # regex-ml
+
+This file includes:
+<br> project purpose
+<br> installation instructions
+<br> project files
+<br> how it works
+<br project process>
+
 ## What's this project about
 
 <br>We try here to create a classifier that will tag references of the Bavli Talmud in a given text.
 <br>The program receives a csv file as input, breaks it into sentences, and then breaks each sentence into n-grams of sizes 3 to 7 (can be changed).
 <br>The classifier then will determine whether the n-gram is a reference or not.
+
+## Resources
+https://www.snorkel.org/
+https://scikit-learn.org/
+https://jakevdp.github.io/PythonDataScienceHandbook/
 
 ## Installation guidelines
 
@@ -19,12 +32,13 @@ pip install torch===1.1.0 torchvision===0.3.0 -f https://download.pytorch.org/wh
 pip install -r requirements.txt
 ```
 
-## Structue of this project
+## Files of this project
 
 <br>The project consists of the following files:
-<br>label_functions – contains the labeling functions and their description.
-<br>labeling_activation – contains the trainif of the machine.
-<br>utility – contains utility function, such as text parsing.
+<br>main - the main part of the project, includes the labeled data creation and training of the classifier
+<br>labeled_function – contains the labeling functions and their description.
+<br>transformation_functions - contains the transformation functions used to increase the labeled data set
+<br>utility – contains utility functions such as text parsing.
 
 ## How it works
 
