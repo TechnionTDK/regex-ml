@@ -1,0 +1,421 @@
+
+
+Analysis for date [2020-03-27 14:46:57.325891]: 
+[SAMPLE_SIZE: 10] 
+[TRANSFORMATION_FACTOR: 6] 
+
+
+:::::::::::::::::::::::::::|LFs Coverage|::::::::::::::::::::::::::::::::
+coverage_masechet_then_parans: 0.7%
+coverage_perek_then_parans: 0.7%
+coverage_perek_and_sham: 0.0%
+coverage_mashechet_and_sham: 0.0%
+coverage_daf_in_parntes: 1.8%
+coverage_no_double_parans: 0.2%
+coverage_no_mishna: 4.9%
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::|LFs Summary - l_train|:::::::::::::::::::::::::::
+                      j Polarity  Coverage  Overlaps  Conflicts
+masechet_then_parans  0      [1]  0.007479  0.007265   0.002350
+perek_then_parans     1      [1]  0.006838  0.006838   0.000855
+perek_and_sham        2       []  0.000000  0.000000   0.000000
+mashechet_and_sham    3       []  0.000000  0.000000   0.000000
+daf_in_parntes        4      [1]  0.017521  0.011966   0.001068
+no_double_parans      5      [0]  0.001709  0.001068   0.000641
+no_mishna             6      [0]  0.049145  0.003419   0.002991
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test data is 0.3% of Train data
+Test set size: 171 , # references: 30
+Original training set size: 239 , # references: 20
+Augmented training set size: 397 , # references: 74
+Test Accuracy: 83.6%
+
+
+Analysis for date [2020-03-28 20:41:20.545828]: 
+[SAMPLE_SIZE: 1000] 
+[TRANSFORMATION_FACTOR: 6] 
+
+
+:::::::::::::::::::::::::::|LFs Coverage|::::::::::::::::::::::::::::::::
+coverage_masechet_then_parans: 0.2%
+coverage_perek_then_parans: 0.1%
+coverage_perek_and_sham: 0.0%
+coverage_mashechet_and_sham: 0.0%
+coverage_daf_in_parntes: 0.5%
+coverage_no_double_parans: 0.1%
+coverage_no_mishna: 3.6%
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::|LFs Summary - l_train|:::::::::::::::::::::::::::
+                      j Polarity  Coverage  Overlaps  Conflicts
+masechet_then_parans  0      [1]  0.001978  0.001881   0.000451
+perek_then_parans     1      [1]  0.001416  0.001381   0.000118
+perek_and_sham        2      [1]  0.000085  0.000007   0.000000
+mashechet_and_sham    3      [1]  0.000406  0.000026   0.000019
+daf_in_parntes        4      [1]  0.005167  0.002863   0.000467
+no_double_parans      5      [0]  0.000755  0.000304   0.000286
+no_mishna             6      [0]  0.036101  0.000548   0.000529
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test data is 0.3% of Train data
+Test set size: 9333 , # references: 879
+Original training set size: 15887 , # references: 625
+Augmented training set size: 21777 , # references: 2068
+Test Accuracy: 91.7%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test data is 0.3% of Train data
+Test set size: 9333 , # references: 879
+Original training set size: 15887 , # references: 625
+Augmented training set size: 31110 , # references: 2947
+Test Accuracy: 91.4%
+Test Accuracy: 96.6%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test data is 0.3% of Train data
+Test set size: 9333 , # references: 879
+Original training set size: 15887 , # references: 625
+Augmented training set size: 31110 , # references: 2947
+Test Accuracy: 91.4%
+Test Accuracy: 96.6%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test data is 0.3% of Train data
+Test set size: 9333 , # references: 879
+Original training set size: 15887 , # references: 625
+Augmented training set size: 31110 , # references: 2947
+Original train set:
+Test Accuracy: 91.4%
+Augmented train set:
+Test Accuracy: 96.6%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set size: 9333 # references [879] , # no references [8454]
+Original training set size: 15887 # references [625] , # no references [15262]
+Augmented training set size: 31110 # references [2947] , # no references [28163]
+Original train set:
+Test Accuracy: 91.4%
+Augmented train set:
+Test Accuracy: 96.6%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: size [9333] # References [879] , # No-References [8454]
+Original training set: size [15887] # References [625] , # No-References [15262]
+Augmented training set: size [31110] # References [2947] , # No-References [28163]
+-Original training set-
+Test Accuracy: 91.4%
+-Augmented training set-
+Test Accuracy: 96.6%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [9333] , # References [879] , # No-References [8454]
+Original training set: 
+size [15887] , # References [625] , # No-References [15262]
+Augmented training set: 
+size [31110] , # References [2947] , # No-References [28163]
+-Original training set-
+Test Accuracy: 91.4%
+-Augmented training set-
+Test Accuracy: 96.6%
+
+
+Analysis for date [2020-03-29 14:36:50.636234]: 
+[SAMPLE_SIZE: 3000] 
+[TRANSFORMATION_FACTOR: 6] 
+
+
+:::::::::::::::::::::::::::|LFs Coverage|::::::::::::::::::::::::::::::::
+coverage_masechet_then_parans: 0.2%
+coverage_perek_then_parans: 0.2%
+coverage_perek_and_sham: 0.0%
+coverage_mashechet_and_sham: 0.0%
+coverage_daf_in_parntes: 0.7%
+coverage_no_double_parans: 0.1%
+coverage_no_mishna: 4.0%
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::|LFs Summary - l_train|:::::::::::::::::::::::::::
+                      j Polarity  Coverage  Overlaps  Conflicts
+masechet_then_parans  0      [1]  0.001689  0.001609   0.000273
+perek_then_parans     1      [1]  0.001991  0.001930   0.000165
+perek_and_sham        2      [1]  0.000150  0.000022   0.000001
+mashechet_and_sham    3      [1]  0.000275  0.000031   0.000010
+daf_in_parntes        4      [1]  0.006707  0.003422   0.000654
+no_double_parans      5      [0]  0.000751  0.000298   0.000271
+no_mishna             6      [0]  0.039798  0.000595   0.000568
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [21737] , # References [2396] , # No-References [19341]
+Original training set: 
+size [40106] , # References [1788] , # No-References [38318]
+Augmented training set: 
+size [50717] , # References [5393] , # No-References [45324]
+-Original training set-
+Test Accuracy: 90.4%
+-Augmented training set-
+Test Accuracy: 91.2%
+
+
+Analysis for date [2020-03-29 16:33:03.552011]: 
+[SAMPLE_SIZE: 50] 
+[TRANSFORMATION_FACTOR: 20] 
+
+
+:::::::::::::::::::::::::::|LFs Coverage|::::::::::::::::::::::::::::::::
+coverage_masechet_then_parans: 0.4%
+coverage_perek_then_parans: 0.3%
+coverage_daf_in_parntes: 0.9%
+coverage_no_double_parans: 0.1%
+coverage_no_mishna: 5.0%
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::|LFs Summary - l_train|:::::::::::::::::::::::::::
+                      j Polarity  Coverage  Overlaps  Conflicts
+masechet_then_parans  0      [1]  0.004322  0.004229   0.001441
+perek_then_parans     1      [1]  0.003392  0.003392   0.000465
+daf_in_parntes        2      [1]  0.009387  0.005809   0.000558
+no_double_parans      3      [0]  0.001022  0.000511   0.000418
+no_mishna             4      [0]  0.049909  0.001673   0.001580
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+-Original training set-
+Test Accuracy: 87.1%
+-Augmented training set-
+Test Accuracy: 90.4%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 87.1%
+Test Accuracy: 90.4%
+Test Accuracy: 95.9%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 87.1%
+Test Accuracy: 90.4%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 87.1%
+Test Accuracy: 90.4%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 87.1%
+Test Accuracy: 90.4%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 87.1%
+Test Accuracy: 90.4%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 87.1%
+Test Accuracy: 90.4%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 87.1%
+Test Accuracy: 90.4%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 87.1%
+Test Accuracy: 90.4%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 87.1%
+Test Accuracy: 90.4%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 94.3%
+Test Accuracy: 96.5%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 94.3%
+Test Accuracy: 96.5%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 94.3%
+Test Accuracy: 96.5%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 94.3%
+Test Accuracy: 96.5%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 94.3%
+Test Accuracy: 96.5%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: 
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 94.3%
+Test Accuracy: 96.5%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: (0.3% of Train data)
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 94.3%
+Test Accuracy: 96.5%
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: (0.3% of Train data)
+size [1610] , # References [214] , # No-References [1396]
+Original training set: 
+size [1100] , # References [49] , # No-References [1051]
+Augmented training set: 
+size [3755] , # References [515] , # No-References [3240]
+Test Accuracy: 94.3%
+Test Accuracy: 96.5%
+
+
+Analysis for date [2020-03-30 20:14:11.395271]: 
+[SAMPLE_SIZE: 800] 
+[TRANSFORMATION_FACTOR: 6] 
+
+
+:::::::::::::::::::::::::::|LFs Coverage|::::::::::::::::::::::::::::::::
+coverage_masechet_then_parans: 0.2%
+coverage_perek_then_parans: 0.2%
+coverage_daf_in_parntes: 0.6%
+coverage_no_double_parans: 0.1%
+coverage_no_mishna: 3.6%
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::|LFs Summary - l_train|:::::::::::::::::::::::::::
+                      j Polarity  Coverage  Overlaps  Conflicts
+masechet_then_parans  0      [1]  0.002273  0.002160   0.000515
+perek_then_parans     1      [1]  0.001568  0.001537   0.000127
+daf_in_parntes        2      [1]  0.005855  0.003251   0.000532
+no_double_parans      3      [0]  0.000882  0.000355   0.000333
+no_mishna             4      [0]  0.036021  0.000595   0.000573
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: (0.3% of Train data)
+size [8340] , # References [778] , # No-References [7562]
+Original training set: 
+size [13596] , # References [539] , # No-References [13057]
+Augmented training set: 
+size [19460] , # References [1765] , # No-References [17695]
+Test Accuracy: 96.8%
+Test Accuracy: 97.5%
+
+
+Analysis for date [2020-03-31 20:32:42.667383]: 
+[SAMPLE_SIZE: 7000] 
+[TRANSFORMATION_FACTOR: 6] 
+
+
+:::::::::::::::::::::::::::|LFs Coverage|::::::::::::::::::::::::::::::::
+coverage_masechet_then_parans: 0.2%
+coverage_perek_then_parans: 0.2%
+coverage_daf_in_parntes: 0.6%
+coverage_no_double_parans: 0.0%
+coverage_no_mishna: 2.7%
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::|LFs Summary - l_train|:::::::::::::::::::::::::::
+                      j Polarity  Coverage  Overlaps  Conflicts
+masechet_then_parans  0      [1]  0.001748  0.001565   0.000162
+perek_then_parans     1      [1]  0.002106  0.002004   0.000139
+daf_in_parntes        2      [1]  0.005847  0.003098   0.000452
+no_double_parans      3      [0]  0.000498  0.000186   0.000167
+no_mishna             4      [0]  0.027322  0.000385   0.000367
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::|Results|::::::::::::::::::::::::::::::::::
+Test set: (0.3% of Train data)
+size [48951] , # References [6581] , # No-References [42370]
+Original training set: 
+size [87849] , # References [4966] , # No-References [82883]
+Augmented training set: 
+size [114218] , # References [15040] , # No-References [99178]
+Test Accuracy: 97.3%
+Test Accuracy: 97.6%
