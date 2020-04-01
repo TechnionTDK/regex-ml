@@ -21,15 +21,15 @@ pip install -r requirements.txt
 ```
 
 ## Resources
-https://www.snorkel.org/
-https://scikit-learn.org/
-https://jakevdp.github.io/PythonDataScienceHandbook/
+<br> https://www.snorkel.org/
+<br> https://scikit-learn.org/
+<br> https://jakevdp.github.io/PythonDataScienceHandbook/
 
 ## Project Process
 <br>The process consisted of three steps:
-<br>First, creating a labeled data set - preparing the data set involved extraction of the text from a csv file, deviding it by sentences into ngrams of different sizes, creating the labeling functions and labeling using Snorkel Majority Label Voter model. Also, it involved cleaning the resulting labels from unnecessary duplications which using different ngram sizes may have caused. 
-<br>Second, using transformations on the tagged dataset to enlarge it - the transformation were based on replacing masachtot and masachtot chapter names.
-<br>Third, training the classifier - training the classifier using the Logistic Regression linear model (scikit learn), with
+<br>1. First, creating a labeled data set - preparing the data set involved extraction of the text from a csv file, deviding it by sentences into ngrams of different sizes, creating the labeling functions and labeling using Snorkel Majority Label Voter model. Also, it involved cleaning the resulting labels from unnecessary duplications which using different ngram sizes may have caused. 
+<br>2. Second, using transformations on the tagged dataset to enlarge it - the transformation were based on replacing masachtot and masachtot chapter names.
+<br>3. Third, training the classifier - training the classifier using the Logistic Regression linear model (scikit learn), with
 the labeled data set we have created as input.
 
  ## Clarifications
