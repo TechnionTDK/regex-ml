@@ -6,6 +6,9 @@
 <br>The program receives a csv file as input, breaks it into sentences, and then breaks each sentence into n-grams of sizes 3 to 7 (can be changed). Using Snorkel and Pandas Python libraries, it uses predecided (manually) labeling functions to label the n-grams. 
 We use the labeled data to train a classifier that will eventually find references for any input. The classifier then will determine whether the n-gram is a reference or not.
 
+<br>examples of a reference: 
+<br>"ובפרק תינוקת (דף ס"ט)"
+
 ## Installation guidelines
 
 <br>In order to run this project, you'll need python version 3.7.1.
@@ -62,6 +65,13 @@ the labeled data set we have created as input.
  <br> - TEST_RATIO = 0.30 # how to split train and test datasets for the classifier training.
  <br> 4. run.
  <br> 5. check the analysis files 
+ 
+ ## important functions
+ 
+ <br>load_labeled_data - extracts ngrams from the csv input file
+ <br>apply_lf_on_data - appplies the labeling functions on the data set and tags them
+ <br>apply_tf_on_data - applies the transformation functions on the labeled data set
+ <br>train_model - trains the classifier and outputs results
  
  <br> For further explanation, check the Snorkel website mentioned under resources. Consider changing the labeling and transformation functions if see it fit.
  <br>The main function calls for several important functions which purpose is described thoroughly in the code.
