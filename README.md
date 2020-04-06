@@ -1,5 +1,16 @@
 # regex-ml
 
+## Table of Contents:
+- [About](#about)
+- [Installation](#installation)
+- [Resources](#resources)
+- [The Project Process](#process)
+- [Files](#files)
+- [How to use](#howto)
+- [Key Functions](#functions)
+
+<a name="about"/>
+
 ## What's this project about
 
 <br>We try here to create a labeled data set which will contain short sequences of an input text, and determine which is a reference to the Babylonian Talmud and which is not.
@@ -8,6 +19,8 @@ We use the labeled data to train a classifier that will eventually find referenc
 
 <br>examples of a reference: 
 <br>"ובפרק תינוקת (דף ס"ט)"
+
+<a name="installation"/>
 
 ## Installation guidelines
 
@@ -23,10 +36,14 @@ pip install torch===1.1.0 torchvision===0.3.0 -f https://download.pytorch.org/wh
 pip install -r requirements.txt
 ```
 
+<a name="resources"/>
+
 ## Resources
 <br> https://www.snorkel.org/
 <br> https://scikit-learn.org/
 <br> https://jakevdp.github.io/PythonDataScienceHandbook/
+
+<a name="process"/>
 
 ## Project Process
 <br>The process consisted of three steps:
@@ -39,6 +56,8 @@ the labeled data set we have created as input.
 
 <br>How the Labeling Functions where decided? by perliminary manual overview of examples of references to the the Babylonian Talmud.
 <br>Why we chose n-gram format? seemed most adequate and allowed us to include different sizes of references. That since we aspire that the tagging will be as acurate as possible, therefore we go over different n-gram sizes.
+
+<a name="files"/>
 
 ## Files of this project
 
@@ -53,6 +72,8 @@ the labeled data set we have created as input.
 <br> - [df_test.csv](data/df_test.csv) and df_train.csv - 30-70 split of labeled data used to train the classifier
 <br> - [labeled_data](data/labeled_data.csv) - outputed labeled data
 <br>  - [labeled_data_augmented.csv](data/labeled_data_augmented.csv) - outputed labeled data including additions of transformation functions. 
+
+ <a name="howto"/>
  
  ## How to use this project:
  
@@ -65,8 +86,10 @@ the labeled data set we have created as input.
  <br> - TEST_RATIO = 0.30 # how to split train and test datasets for the classifier training.
  <br> 4. run.
  <br> 5. check the results at the [analysis file](data/analysis.txt) 
+ <a name="functions"/>
  
  ## important functions
+ 
  <br>In [main.py](main.py):
  <br>load_labeled_data - extracts ngrams from the csv input file
  <br>apply_lf_on_data - appplies the labeling functions on the data set and tags them
