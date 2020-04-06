@@ -19,7 +19,7 @@
 We use the labeled data to train a classifier that will eventually find references for any input. The classifier then will determine whether the n-gram is a reference or not.
 
 <br>examples of a reference: 
-<br>"ובפרק תינוקת (דף ס"ט)"
+>**":ובפרק תינוקת (ברכות דף ס"ט)"**
 
 <a name="installation"/>
 
