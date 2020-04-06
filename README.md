@@ -1,5 +1,6 @@
 # regex-ml
-
+<br><Here comes the "story" that led us to this project>
+<br>
 ## Table of Contents:
 - [About](#about)
 - [Installation](#installation)
@@ -52,7 +53,7 @@ pip install -r requirements.txt
 <br>3. Third, training the classifier - training the classifier using the Logistic Regression linear model (scikit learn), with
 the labeled data set we have created as input.
 
- ## Clarifications
+ ### Clarifications
 
 <br>How the Labeling Functions where decided? by perliminary manual overview of examples of references to the the Babylonian Talmud.
 <br>Why we chose n-gram format? seemed most adequate and allowed us to include different sizes of references. That since we aspire that the tagging will be as acurate as possible, therefore we go over different n-gram sizes.
