@@ -93,11 +93,11 @@ the labeled data set we have created as input.
  ## important functions
  
  <br>In [main.py](main.py):
- <br>load_labeled_data - extracts ngrams from the csv input file
- <br>apply_lf_on_data - appplies the labeling functions on the data set and tags them
- <br>apply_tf_on_data - applies the transformation functions on the labeled data set
- <br>train_model - trains the classifier and outputs results
- 
+* load_labeled_data - extracts ngrams from the csv input file
+* apply_lf_on_data - appplies the labeling functions on the data set and tags them
+* apply_tf_on_data - applies the transformation functions on the labeled data set
+* train_model - trains the classifier and outputs results
+ ---
  <br> For further explanation, check out the [Snorkel website](https://www.snorkel.org/) mentioned under resources. Consider changing the labeling and transformation functions if see it fit.
  <br>The main function calls for several important functions which purpose is described thoroughly in the code.
  <br> good luck!
