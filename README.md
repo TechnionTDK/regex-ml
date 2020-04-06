@@ -86,7 +86,7 @@ the labeled data set we have created as input.
 * <b>TRANSFORMATION_FACTOR</b> : determines the number of transformation of each label which contains a masechet or masechet chapter  name. It needs to be between 0 and number of total masachtot/prakim.
 * <b>TEST_RATIO</b> = 0.30 : how to split train and test datasets for the classifier training.
 4. Run [main.py](main.py) .
-5. Check the results at the [analysis file](data/analysis.txt) 
+5. Check the results at the [analysis file](data/analysis.txt) and explore 🔨 
 
  <a name="functions"/>
  
