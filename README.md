@@ -48,9 +48,9 @@ pip install -r requirements.txt
 
 ## Project Process
 <br>The process consisted of three steps:
-<br>1. First, creating a labeled data set - preparing the data set involved extraction of the text from a csv file, deviding it by sentences into ngrams of different sizes, creating the labeling functions and labeling using Snorkel Majority Label Voter model. Also, it involved cleaning the resulting labels from unnecessary duplications which using different ngram sizes may have caused. 
-<br>2. Second, using transformations on the tagged dataset to enlarge it - the transformation were based on replacing masachtot and masachtot chapter names.
-<br>3. Third, training the classifier - training the classifier using the Logistic Regression linear model (scikit learn), with
+- First, creating a labeled data set - preparing the data set involved extraction of the text from a csv file, deviding it by sentences into ngrams of different sizes, creating the labeling functions and labeling using Snorkel Majority Label Voter model. Also, it involved cleaning the resulting labels from unnecessary duplications which using different ngram sizes may have caused. 
+- Second, using transformations on the tagged dataset to enlarge it - the transformation were based on replacing masachtot and masachtot chapter names.
+- Third, training the classifier - training the classifier using the Logistic Regression linear model (scikit learn), with
 the labeled data set we have created as input.
 
  ### Clarifications
@@ -78,15 +78,16 @@ the labeled data set we have created as input.
  
  ## How to use this project:
  
- <br> 1. download the project. 
- <br> 2. take the input file (Hebrew text of course) and turn it into CSV file,  name it "csvRes.csv" and put it in the Data directory.
- <br> 3. Set the following constants which appear in the [utility file](utility.py):
- <br>  - SAMPLE_SIZE : the number of rows to use from the csv file.
- <br>  - MIN_N_GRAM_SIZE and MAX_N_GRAM_SIZE : determines the range of n-gram sizes.
- <br>  - TRANSFORMATION_FACTOR : determines the number of transformation of each label which contains a masechet or masechet chapter  name. It needs to be between 0 and number of total masachtot/prakim.
- <br> - TEST_RATIO = 0.30 # how to split train and test datasets for the classifier training.
- <br> 4. run.
- <br> 5. check the results at the [analysis file](data/analysis.txt) 
+1. 🍴 Fork or 👯 Clone this repo to your local machine.
+2. Take the input file (Hebrew text of course) and turn it into CSV file,  name it "csvRes.csv" and put it in the Data directory.
+3. Set the following constants which appear in the [utility file](utility.py) -
+* <b>SAMPLE_SIZE</b> : the number of rows to use from the csv file.
+* <b>MIN_N_GRAM_SIZE</b> and <b>MAX_N_GRAM_SIZE</b> : determines the range of n-gram sizes.
+* <b>TRANSFORMATION_FACTOR</b> : determines the number of transformation of each label which contains a masechet or masechet chapter  name. It needs to be between 0 and number of total masachtot/prakim.
+* <b>TEST_RATIO</b> = 0.30 : how to split train and test datasets for the classifier training.
+4. Run [main.py](main.py) .
+5. Check the results at the [analysis file](data/analysis.txt) 
+
  <a name="functions"/>
  
  ## important functions
