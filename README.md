@@ -1,6 +1,5 @@
 # regex-ml
-<br><Here comes the "story" that led us to this project>📚📜
-<br>
+
 ## Table of Contents:
 - [About](#about)
 - [Installation](#installation)
@@ -12,14 +11,15 @@
 
 <a name="about"/>
 
-## What's this project about
+## About:
 
-<br>We try here to create a labeled data set which will contain short sequences of an input text, and determine which is a reference to the Babylonian Talmud and which is not.
-<br>The program receives a csv file as input, breaks it into sentences, and then breaks each sentence into n-grams of sizes 3 to 7 (can be changed). Using Snorkel and Pandas Python libraries, it uses predecided (manually) labeling functions to label the n-grams. 
-We use the labeled data to train a classifier that will eventually find references for any input. The classifier then will determine whether the n-gram is a reference or not.
+<br>This project tested whether using machine learning tools might be useful in tasks of information tagging. Part of a larger project, “The Jewish Book Closet”, it focuses on tagging references of hebrew sources, in this case, the Babylonian Talmud. In the past, regular expressions were used for the task of finding these references, but they have proven difficult to work with, especially with Hebrew sources, and therefore a machine learning approach was tested. One of the more difficult steps when working with machine learning is the creation of a large enough data set for the machine to learn from. Our purpose was to create that data set using weak supervision machine learning methods. 
 
-<br>examples of a reference: 
->**":ובפרק תינוקת (ברכות דף ס"ט)"**
+<br>The tool creates a labeled data set which will contain short sequences of an input text, and determine which is a reference to the Babylonian Talmud and which is not: <br>The program receives a CSV file as input, breaks it into sentences, and then breaks each sentence into sequences in a range of sizes (can be changed). Using Snorkel and Pandas Python libraries, it uses predecided (manually) labeling functions to label the sequences and create the tagged data set.
+
+<br>The working process showed that the task at hand was much easier than it was using only regular expressions, especially when dealing with Hebrew sources. Most importantly, it resulted in a large tagged data set, which would have been impossible to create manually. In order to test if data set is satisfactory for a machine to learn from, we created a basic classifer using the data set, and checked it on a small test set. The next step is to take the data set this tool creates to train a classifer that will tag any input text. We believe that with further understanding of existing tools in Deep learning it will be possible to achieve even better and meaningful results.
+
+<br> For detailed information about the project, go to the wiki page📚📜.
 
 <a name="installation"/>
 
@@ -54,9 +54,11 @@ pip install -r requirements.txt
 the labeled data set we have created as input.
 
  ### Clarifications
-
-<br>How the Labeling Functions where decided? by perliminary manual overview of examples of references to the the Babylonian Talmud.
-<br>Why we chose n-gram format? seemed most adequate and allowed us to include different sizes of references. That since we aspire that the tagging will be as acurate as possible, therefore we go over different n-gram sizes.
+ 
+<br> <br>Examples of a reference to the Babylonian Talmud: 
+>**":ובפרק תינוקת (ברכות דף ס"ט)"**
+<br>How werethe Labeling Functions decided? by perliminary manual overview of examples of references to the the Babylonian Talmud.
+<br>Why was the n-gram format chosen? seemed most adequate and allowed us to include different sizes of references. That since we aspire that the tagging will be as acurate as possible, therefore we go over different n-gram sizes.
 
 <a name="files"/>
 
