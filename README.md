@@ -55,7 +55,7 @@ the labeled data set we have created as input.
 
  ### Clarifications
  
-<br> <br>Examples of a reference to the Babylonian Talmud: 
+<br>Examples of a reference to the Babylonian Talmud: 
 >**":ובפרק תינוקת (ברכות דף ס"ט)"**
 <br>How werethe Labeling Functions decided? by perliminary manual overview of examples of references to the the Babylonian Talmud.
 <br>Why was the n-gram format chosen? seemed most adequate and allowed us to include different sizes of references. That since we aspire that the tagging will be as acurate as possible, therefore we go over different n-gram sizes.
