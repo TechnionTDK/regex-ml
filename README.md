@@ -7,9 +7,11 @@
 - [Installation](#installation)
 - [Resources](#resources)
 - [The Project Process](#process)
+- [Q&A](#qa)
 - [Files](#files)
 - [How to use](#howto)
 - [Key Functions](#functions)
+- [Conclusions](#conclusions)
 
 <a name="about"/>
 
@@ -20,13 +22,10 @@
 <br>In the past, regular expressions were used for the task of finding these references, but they have proven difficult to work with, especially with Hebrew sources, and therefore a machine learning approach was tested.
 <br>One of the most difficult steps when working with machine learning is the creation of a large enough data set for the machine to learn from. Our purpose was to create that data set using weak supervision machine learning methods. 
 
-<br>This tool creates a labeled data set which will contain short sequences of an input text, and determine which sequence is a [reference to the Babylonian Talmud](#clarifications) and which is not: 
+<br>This tool creates a labeled data set which will contain short sequences of an input text, and determine which sequence is a [reference to the Babylonian Talmud](#qa) and which is not: 
 <br>The program receives a CSV file as input, breaks it into sentences, and then breaks each sentence into sequences in a range of sizes (can be changed). Using [Snorkel](https://www.snorkel.org/) and [Pandas](https://pandas.pydata.org/) Python libraries, it uses predecided (manually) labeling functions to label the sequences and create the tagged data set.
 <br>
-<br>The working process showed that the task at hand was much easier than it was using only regular expressions, especially when dealing with Hebrew sources. Most importantly, it resulted in a large tagged data set, which would have been impossible to create manually.
-<br>To test if the data set is satisfactory for a machine to learn from, we've created a basic classifier using the data set and then checked it on a small test set. 
-<br>The next step is to take the data set this tool creates, and train a classifier that will tag any input text.
-<br>We believe that with further understanding of existing tools in machine learning it will be possible to achieve even better and more meaningful results.
+
 
 <br> For detailed information about the project, please visit the [wiki](https://github.com/TechnionTDK/regex-ml/wiki/Introduction) page 📚📜.
 
@@ -63,31 +62,38 @@ pip install -r requirements.txt
 - Third, training the classifier - training the classifier using the Logistic Regression linear model (scikit learn), with
 the labeled data set we have created as input.
 
-<a name="clarifications"/>
+<a name="qa"/>
 
- ### Clarifications
+ ## Q&A
  
-<br>Examples of a reference to the Babylonian Talmud: 
->**":ובפרק תינוקת (ברכות דף ס"ט)"**
+- Q: **What is a reference to the Babylonian Talmud?**
+<br>A: Here is an example:
+ >**":ובפרק תינוקת (ברכות דף ס"ט)"**
 
-<br>How werethe Labeling Functions decided? by perliminary manual overview of examples of references to the the Babylonian Talmud.
-<br>Why was the n-gram format chosen? seemed most adequate and allowed us to include different sizes of references. That since we aspire that the tagging will be as acurate as possible, therefore we go over different n-gram sizes.
+- Q: **How were the Labeling Functions decided?**
+<br>A: By perliminary manual overview of examples of references to the the Babylonian Talmud.
+<br> more info on that you can find in the [wiki](https://github.com/TechnionTDK/regex-ml/wiki/Introduction).
+- Q: **Why was the n-gram format chosen?**
+<br>A: Seemed most adequate and allowed us to include different sizes of references. That since we aspire that the tagging will be as acurate as possible, therefore we go over different n-gram sizes.
+
+*More clarifications will be added in the future if necessary*
 
 <a name="files"/>
 
-## Files of this project
+## Important files of this project
 
-<br>The project consists of the following files:
-<br>[main.py](main.py) - the main part of the project, includes the labeled data creation and training of the classifier
-<br>[labeled_function.py](labeled_function.py) – contains the labeling functions and their description.
-<br>[transformation_functions.py](transformation_function.py) - contains the transformation functions used to increase the labeled data set
-<br>[utility.py](utility.py) – contains utility functions such as text parsing.
-<br>Data directory:
-<br> - contains the [analysis file](data/analysis.txt) - contains output analysis for every run, of functions coverage and classifier accuracy.
-<br> - [csvRes](data/csvRes.csv) - name of expected input text in csv format. 
-<br> - [df_test.csv](data/df_test.csv) and df_train.csv - 30-70 split of labeled data used to train the classifier
-<br> - [labeled_data](data/labeled_data.csv) - outputed labeled data
-<br>  - [labeled_data_augmented.csv](data/labeled_data_augmented.csv) - outputed labeled data including additions of transformation functions. 
+<br>The project consists mainly of the following files:
+<br>-**Root directory:**
+<br>--->[main.py](main.py) - the main part of the project, includes the labeled data creation and training of the classifier
+<br>--->[labeled_function.py](labeled_function.py) – contains the labeling functions and their description.
+<br>--->[transformation_functions.py](transformation_function.py) - contains the transformation functions used to increase the labeled data set
+<br>--->[utility.py](utility.py) – contains utility functions such as text parsing.
+<br>-**Data directory:**
+<br>--->[analysis file](data/analysis.txt) - contains output analysis for every run, of functions coverage and classifier accuracy.
+<br>--->[csvRes](data/csvRes.csv) - name of expected input text in csv format. 
+<br>--->[df_test.csv](data/df_test.csv) and df_train.csv - 30-70 split of labeled data used to train the classifier
+<br>--->[labeled_data](data/labeled_data.csv) - outputed labeled data
+<br>--->[labeled_data_augmented.csv](data/labeled_data_augmented.csv) - outputed labeled data including additions of transformation functions. 
 
  <a name="howto"/>
  
@@ -105,15 +111,28 @@ the labeled data set we have created as input.
 
  <a name="functions"/>
  
- ## important functions
+ ## Important functions
  
  <br>In [main.py](main.py):
 * load_labeled_data - extracts ngrams from the csv input file
 * apply_lf_on_data - appplies the labeling functions on the data set and tags them
 * apply_tf_on_data - applies the transformation functions on the labeled data set
 * train_model - trains the classifier and outputs results
- ---
- <br> For further explanation, check out the [Snorkel website](https://www.snorkel.org/) mentioned under resources. Consider changing the labeling and transformation functions if see it fit.
- <br>The main function calls for several important functions which purpose is described thoroughly in the code.
- <br> good luck!
+ 
+  <a name="conclusions"/>
+ 
+ ## Conclusions
+ 
+<br>The working process showed that the task at hand was much easier than it was using only regular expressions, especially when dealing with Hebrew sources. Most importantly, it resulted in a large tagged data set, which would have been impossible to create manually.
+<br>To test if the data set is satisfactory for a machine to learn from, we've created a basic classifier using the data set and then checked it on a small test set. 
+<br>
+<br>The next step is to take the data set this tool creates, and train a classifier that will tag any input text.
+<br>We believe that with further understanding of existing tools in machine learning it will be possible to achieve even better and more meaningful results.
+
+---
+<br>For further explanation, please check out the [wiki](https://github.com/TechnionTDK/regex-ml/wiki/Introduction) page.
+<br>Also, check out the [Snorkel website](https://www.snorkel.org/) mentioned under resources. Consider changing the labeling and transformation functions if see it fit.
+<br>The main function calls for several important functions which purpose is described thoroughly in the code.
+<br>
+<br> good luck!
  
