@@ -1,5 +1,7 @@
 # regex-ml
 
+A tool for extracting refrences to the Babylonian Talmud from a given corpus, using weak supervision machine learning methods.
+
 ## Table of Contents:
 - [About](#about)
 - [Installation](#installation)
@@ -11,15 +13,22 @@
 
 <a name="about"/>
 
-## About:
+## About this project:
 
-<br>This project tested whether using machine learning tools might be useful in tasks of information tagging. Part of a larger project, “The Jewish Book Closet”, it focuses on tagging references of hebrew sources, in this case, the Babylonian Talmud. In the past, regular expressions were used for the task of finding these references, but they have proven difficult to work with, especially with Hebrew sources, and therefore a machine learning approach was tested. One of the more difficult steps when working with machine learning is the creation of a large enough data set for the machine to learn from. Our purpose was to create that data set using weak supervision machine learning methods. 
+<br>This project is testing whether using machine learning tools might be useful in tasks of information tagging. It is a part of a larger project, “The Jewish Book Closet”, and focuses on tagging references of Hebrew sources - in this case, the Babylonian Talmud.
+<br>
+<br>In the past, regular expressions were used for the task of finding these references, but they have proven difficult to work with, especially with Hebrew sources, and therefore a machine learning approach was tested.
+<br>One of the most difficult steps when working with machine learning is the creation of a large enough data set for the machine to learn from. Our purpose was to create that data set using weak supervision machine learning methods. 
 
-<br>The tool creates a labeled data set which will contain short sequences of an input text, and determine which is a reference to the Babylonian Talmud and which is not: <br>The program receives a CSV file as input, breaks it into sentences, and then breaks each sentence into sequences in a range of sizes (can be changed). Using Snorkel and Pandas Python libraries, it uses predecided (manually) labeling functions to label the sequences and create the tagged data set.
+<br>This tool creates a labeled data set which will contain short sequences of an input text, and determine which sequence is a reference to the Babylonian Talmud and which is not: 
+<br>The program receives a CSV file as input, breaks it into sentences, and then breaks each sentence into sequences in a range of sizes (can be changed). Using Snorkel and Pandas Python libraries, it uses predecided (manually) labeling functions to label the sequences and create the tagged data set.
+<br>
+<br>The working process showed that the task at hand was much easier than it was using only regular expressions, especially when dealing with Hebrew sources. Most importantly, it resulted in a large tagged data set, which would have been impossible to create manually.
+<br>To test if the data set is satisfactory for a machine to learn from, we've created a basic classifier using the data set and then checked it on a small test set. 
+<br>The next step is to take the data set this tool creates, and train a classifier that will tag any input text.
+<br>We believe that with further understanding of existing tools in machine learning it will be possible to achieve even better and more meaningful results.
 
-<br>The working process showed that the task at hand was much easier than it was using only regular expressions, especially when dealing with Hebrew sources. Most importantly, it resulted in a large tagged data set, which would have been impossible to create manually. In order to test if data set is satisfactory for a machine to learn from, we created a basic classifer using the data set, and checked it on a small test set. The next step is to take the data set this tool creates to train a classifer that will tag any input text. We believe that with further understanding of existing tools in Deep learning it will be possible to achieve even better and meaningful results.
-
-<br> For detailed information about the project, go to the wiki page📚📜.
+<br> For detailed information about the project, please visit the wiki page 📚📜.
 
 <a name="installation"/>
 
