@@ -17,7 +17,7 @@
 
 ## About this project:
 
-<br>This project is testing whether using machine learning tools might be useful in tasks of information tagging. It is a part of a larger project, “The Jewish Book Closet”, and focuses on tagging references of Hebrew sources - in this case, the Babylonian Talmud.
+<br>This project is testing whether using machine learning tools might be useful in tasks of information tagging. It is a part of a larger project, “The Jewish Book Closet”, and focuses on tagging references of Hebrew sources - in this case, the [Babylonian Talmud](https://en.wikipedia.org/wiki/Talmud#Babylonian_Talmud).
 <br>
 <br>In the past, regular expressions were used for the task of finding these references, but they have proven difficult to work with, especially with Hebrew sources, and therefore a machine learning approach was tested.
 <br>One of the most difficult steps when working with machine learning is the creation of a large enough data set for the machine to learn from. Our purpose was to create that data set using weak supervision machine learning methods. 
