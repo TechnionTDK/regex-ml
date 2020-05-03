@@ -124,10 +124,11 @@ the labeled data set we have created as input.
  
  ## Results
  
- <br>You can take a look at the [data](data/) folder to see some results.
- <br>An example of good results you can see in the [data7000.rar](data/data7000.rar), a zip containing results
- <br>from a run with [SAMPLE_SIZE](#ssize) of 7000.
- <br>History of our runs&attempts you can fine in the [analysis file](data/analysis.txt), check it out.
+ <br>*In general, you can take a look at the [data](data/) folder to see some results.*
+ <br>
+ <br>An example of good results you can see in the [data7000.rar](data/data7000.rar) file - a zip containing results from a run
+ <br>with [SAMPLE_SIZE](#ssize) of 7000.
+ <br>History of our data creation and classifier runs you can find in the [analysis file](data/analysis.txt), check it out.
  <br>Please run the [main.py](main.py) with your own parameters to get some more results :)
  
   <a name="conclusions"/>
