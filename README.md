@@ -8,9 +8,10 @@
 - [Resources](#resources)
 - [The Project Process](#process)
 - [Q&A](#qa)
-- [Files](#files)
+- [Files](#ifiles)
 - [How to use](#howto)
 - [Key Functions](#functions)
+- [Results!](#results)
 - [Conclusions](#conclusions)
 
 <a name="about"/>
@@ -78,7 +79,7 @@ the labeled data set we have created as input.
 
 *More clarifications will be added in the future if necessary*
 
-<a name="files"/>
+<a name="ifiles"/>
 
 ## Important files of this project
 
@@ -102,7 +103,7 @@ the labeled data set we have created as input.
 1. 🍴 Fork or 👯 Clone this repo to your local machine.
 2. Take the input file (Hebrew text of course) and turn it into CSV file,  name it "csvRes.csv" and put it in the Data directory.
 3. Set the following constants which appear in the [utility file](utility.py) -
-* <b>SAMPLE_SIZE</b> : the number of rows to use from the csv file.
+* <b>SAMPLE_SIZE</b> : the number of rows to use from the csv file. <a name="ssize"/>
 * <b>MIN_N_GRAM_SIZE</b> and <b>MAX_N_GRAM_SIZE</b> : determines the range of n-gram sizes.
 * <b>TRANSFORMATION_FACTOR</b> : determines the number of transformation of each label which contains a masechet or masechet chapter  name. It needs to be between 0 and number of total masachtot/prakim.
 * <b>TEST_RATIO</b> = 0.30 : how to split train and test datasets for the classifier training.
@@ -118,6 +119,16 @@ the labeled data set we have created as input.
 * apply_lf_on_data - appplies the labeling functions on the data set and tags them
 * apply_tf_on_data - applies the transformation functions on the labeled data set
 * train_model - trains the classifier and outputs results
+ 
+ <a name="results"/>
+ 
+ ## Results
+ 
+ <br>You can take a look at the [data](data/) folder to see some results.
+ <br>An example of good results you can see in the [data7000.rar](data/data7000.rar), a zip containing results
+ <br>from a run with [SAMPLE_SIZE](#ssize) of 7000.
+ <br>History of our runs&attempts you can fine in the [analysis file](data/analysis.txt), check it out.
+ <br>Please run the [main.py](main.py) with your own parameters to get some more results :)
  
   <a name="conclusions"/>
  
