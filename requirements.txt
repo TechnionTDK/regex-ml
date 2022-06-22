@@ -3,7 +3,7 @@ joblib==0.14.1
 munkres==1.1.2
 networkx==2.3
 nltk==3.4.5
-numpy==1.17.4
+numpy==1.22.0
 pandas==0.25.3
 Pillow==6.2.1
 protobuf==3.11.2
