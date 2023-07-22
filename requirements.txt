@@ -2,7 +2,7 @@ decorator==4.4.1
 joblib==0.14.1
 munkres==1.1.2
 networkx==2.3
-nltk==3.4.5
+nltk==3.6.6
 numpy==1.17.4
 pandas==0.25.3
 Pillow==6.2.1
